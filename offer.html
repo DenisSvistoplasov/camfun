@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T17:22:08+0900" >
+	<meta name="date" content="2017-08-28T17:29:08+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -101,7 +101,7 @@
 				localPeerConnection.createOffer().then(function(offer) {
 					return localPeerConnection.setLocalDescription(offer);
 				}).then(function() {
-					socket.emit("description", {"name": "offer","target": "answer","type":"video-offer","sdp": localPeerConnection.localDescription});
+					socket.emit('exchange', {'to': socketId, 'sdp': pc.localDescription });
 					
 					
 					// Here was gotLocalDescription function

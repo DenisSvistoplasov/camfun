@@ -38,8 +38,8 @@ io.sockets.on('connection', function(socket){
 	});
 	
 	// Send SDP
-	socket.on('description', function(data){
-		io.sockets.emit('description', data);
-		console.log('description: %s', data);
+	socket.on('exchange', function(data){
+		io.sockets.emit('exchange', data);
+		console.log('exchange: %s', data);
 	});
 });
