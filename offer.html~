@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T16:12:41+0900" >
+	<meta name="date" content="2017-08-28T17:01:56+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -117,18 +117,17 @@
 			// ADD ICE CANDIDATE ---------------------------
 			socket.on("iceCandidate", function(iceCandidate){
 				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+				log("Remote ICE candidate: \n " + iceCandidate);
 			});
 			
 			// SET REMOTE DESCRIPTION ---------------------------
 			socket.on("description", function(description){
 				localPeerConnection.setRemoteDescription(description);
-				});
 			});
 			
 			// ADD REMOTE STREAM ---------------------------
 			socket.on("addStream", function(event){
 				remoteVideo.srcObject = event.stream;
-				});
 			});
 		});
 	</script>

@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T16:51:00+0900" >
+	<meta name="date" content="2017-08-28T17:01:29+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -68,31 +68,31 @@
 					log("Received local stream");
 					localVideo.srcObject = stream;
 					localStream = stream;
-					$callButton.prop("disabled",false);
+					log("Waiting call");
+					if (localStream.getVideoTracks().length > 0) {
+						log('Using video device: ' + localStream.getVideoTracks()[0].label);
+					}
+					if (localStream.getAudioTracks().length > 0) {
+						log('Using audio device: ' + localStream.getAudioTracks()[0].label);
+					}
+					localPeerConnection = new RTCPeerConnection(configuration);
+					log("Created local peer connection object localPeerConnection");
+					localPeerConnection.onicecandidate = function(event){
+						if (!event || !event.candidate) return;
+						socket.emit("iceCandidate", event.candidate);
+						log("Local ICE candidate: \n" + event.candidate.candidate);
+					};
 				}).catch(function(error) {
 					log("navigator.getUserMedia error: ", error);
 				});
 			});
 
 /*			$callButton.click(function() {
-				$callButton.prop("disabled",true);
-				$hangupButton.prop("disabled",false);
-				log("Starting call");
-				if (localStream.getVideoTracks().length > 0) {
-					log('Using video device: ' + localStream.getVideoTracks()[0].label);
-				}
-				if (localStream.getAudioTracks().length > 0) {
-					log('Using audio device: ' + localStream.getAudioTracks()[0].label);
-				}
-				log("RTCPeerConnection object: " + RTCPeerConnection);
-				localPeerConnection = new RTCPeerConnection(configuration);
-				log("Created local peer connection object localPeerConnection");
 				
-				localPeerConnection.onicecandidate = function(event){
-					if (!event || !event.candidate) return;
-					socket.emit("iceCandidate", event.candidate);
-					log("Local ICE candidate: \n" + event.candidate.candidate);
-				};
+
+
+				
+
 				
 				localPeerConnection.addStream(localStream);
 				log("Added localStream to localPeerConnection");
@@ -114,8 +114,9 @@
 			// ADD ICE CANDIDATE ---------------------------
 			socket.on("iceCandidate", function(iceCandidate){
 				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+				log("Remote ICE candidate: \n " + event.candidate.candidate);
 			});
-			
+/*			
 			// SET REMOTE DESCRIPTION ---------------------------
 			socket.on("description", function(description){
 				localPeerConnection.setRemoteDescription(description);
@@ -124,7 +125,7 @@
 			// ADD REMOTE STREAM ---------------------------
 			socket.on("addStream", function(event){
 				remoteVideo.srcObject = event.stream;
-			});
+			});*/
 		});
 	</script>
 </body>

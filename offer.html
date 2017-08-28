@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T16:26:00+0900" >
+	<meta name="date" content="2017-08-28T17:02:05+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -87,7 +87,6 @@
 				if (localStream.getAudioTracks().length > 0) {
 					log('Using audio device: ' + localStream.getAudioTracks()[0].label);
 				}
-				log("RTCPeerConnection object: " + RTCPeerConnection);
 				localPeerConnection = new RTCPeerConnection(configuration);
 				log("Created local peer connection object localPeerConnection");
 				
@@ -117,6 +116,7 @@
 			// ADD ICE CANDIDATE ---------------------------
 			socket.on("iceCandidate", function(iceCandidate){
 				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+				log("Remote ICE candidate: \n " + iceCandidate);
 			});
 			
 			// SET REMOTE DESCRIPTION ---------------------------
