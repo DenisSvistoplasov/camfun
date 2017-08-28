@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T17:35:49+0900" >
+	<meta name="date" content="2017-08-28T18:46:32+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -80,7 +80,6 @@
 					localPeerConnection.onicecandidate = function(event){
 						if (!event || !event.candidate) return;
 						socket.emit("iceCandidate", event.candidate);
-						log("Local ICE candidate: \n" + event.candidate.candidate);
 					};
 					localPeerConnection.addStream(localStream);
 					log("Added localStream to localPeerConnection");
@@ -91,23 +90,20 @@
 
 			// SET REMOTE DESCRIPTION ---------------------------
 			socket.on("exchange", function(offer){
-				localPeerConnection.setRemoteDescription(offer);
-				localPeerConnection.createAnswer().then(function(answer) {
-					return localPeerConnection.setLocalDescription(answer);
-				}).then(function() {
-					socket.emit('exchange', {'to': 'offer', 'sdp': localPeerConnection.localDescription });
-				}).catch(handleGetUserMediaError);
-					console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
-				});
-
+				localPeerConnection.setRemoteDescription(new RTCSessionDescription(offer)).then(function (){
+					localPeerConnection.createAnswer(function(answer) {
+						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function(){
+							socket.emit('exchange', answer);
+						}, function(handleGetUserMediaError){
+							log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+						});
+					}, function(handleGetUserMediaError){
+						log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+					});
+				})
+			});
 /*			$callButton.click(function() {
 				
-
-
-				
-
-				
-
 				localPeerConnection.createOffer().then(function(offer) {
 					return localPeerConnection.setLocalDescription(offer);
 				}).then(function() {
@@ -118,7 +114,7 @@
 						type: "video-offer",
 						sdp: myPeerConnection.localDescription
 					}).catch(function(reason) {
-					console.log('Failed to create signaling message : ' + reason.name);
+					log('Failed to create signaling message : ' + reason.name);
 				});				
 				
 			});
@@ -126,7 +122,6 @@
 			// ADD ICE CANDIDATE ---------------------------
 			socket.on("iceCandidate", function(iceCandidate){
 				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
-				log("Remote ICE candidate: \n " + iceCandidate);
 			});
 /*			
 

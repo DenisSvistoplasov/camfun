@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T17:36:04+0900" >
+	<meta name="date" content="2017-08-28T18:45:12+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -93,30 +93,31 @@
 				localPeerConnection.onicecandidate = function(event){
 					if (!event || !event.candidate) return;
 					socket.emit("iceCandidate", event.candidate);
-					log("Local ICE candidate: \n" + event.candidate.candidate);
 				};
 				
 				localPeerConnection.addStream(localStream);
 				log("Added localStream to localPeerConnection");
-				localPeerConnection.createOffer().then(function(offer) {
-					return localPeerConnection.setLocalDescription(offer);
-				}).then(function() {
-					socket.emit('exchange', {'to': 'answer', 'sdp': localPeerConnection.localDescription });
-				}).catch(function(handleGetUserMediaError) {
+				
+				localPeerConnection.createOffer(function(offer) {
+					localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
+						socket.emit('exchange', offer);
+					}, function(handleGetUserMediaError){
+						console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+					});
+				}, function(handleGetUserMediaError){
 					console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
 				});				
-				
 			});
 			
 			// ADD ICE CANDIDATE ---------------------------
 			socket.on("iceCandidate", function(iceCandidate){
 				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
-				log("Remote ICE candidate: \n " + iceCandidate);
 			});
 			
 			// SET REMOTE DESCRIPTION ---------------------------
 			socket.on("exchange", function(answer){
 				localPeerConnection.setRemoteDescription(answer);
+				console.log('Set remote description');
 			});
 			
 			// ADD REMOTE STREAM ---------------------------
