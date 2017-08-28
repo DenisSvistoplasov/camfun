@@ -33,19 +33,8 @@ io.sockets.on('connection', function(socket){
 	});
 
 	// Send Message
-	socket.on('send message', function(data){
-		io.sockets.emit('new message', {msg: data, user: socket.username});
+	socket.on('iceCandidate', function(data){
+		io.sockets.emit('iceCandidate', data);
+		console.log('iceCandidate: %s', data);
 	});
-
-	// New User
-	socket.on('new user', function(data, callback){
-		callback(true);
-		socket.username = data;
-		users.push(socket.username);
-		updateUsernames();
-	});
-
-	function updateUsernames(){
-		io.sockets.emit('get users', users);
-	};
 });
