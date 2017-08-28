@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T18:45:12+0900" >
+	<meta name="date" content="2017-08-28T19:03:39+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -41,7 +41,6 @@
 	<div>
 		<button id="startButton">Start</button>
 		<button id="callButton">Call</button>
-		<button id="hangupButton">Hang Up</button>
 	</div>
 	<script>
 		$(function(){
@@ -54,11 +53,9 @@
 			
 			var $startButton = $('#startButton');
 			var $callButton = $('#callButton');
-			var $hangupButton = $('#hangupButton');
 			
 			$startButton.prop("disabled",false);
 			$callButton.prop("disabled",true);
-			$hangupButton.prop("disabled",true);
 			
 			function log(text) {
 				console.log("At time: " + (performance.now() / 1000).toFixed(3) + " --> " + text);
@@ -79,7 +76,6 @@
 
 			$callButton.click(function() {
 				$callButton.prop("disabled",true);
-				$hangupButton.prop("disabled",false);
 				log("Starting call");
 				if (localStream.getVideoTracks().length > 0) {
 					log('Using video device: ' + localStream.getVideoTracks()[0].label);
@@ -94,7 +90,9 @@
 					if (!event || !event.candidate) return;
 					socket.emit("iceCandidate", event.candidate);
 				};
-				
+				localPeerConnection.ontrack = function (event) {
+					remoteVideo.srcObject = event.streams[0];
+				};
 				localPeerConnection.addStream(localStream);
 				log("Added localStream to localPeerConnection");
 				
@@ -118,11 +116,6 @@
 			socket.on("exchange", function(answer){
 				localPeerConnection.setRemoteDescription(answer);
 				console.log('Set remote description');
-			});
-			
-			// ADD REMOTE STREAM ---------------------------
-			socket.on("addStream", function(event){
-				remoteVideo.srcObject = event.stream;
 			});
 		});
 	</script>

@@ -34,12 +34,10 @@ io.sockets.on('connection', function(socket){
 	// Send iceCandidate
 	socket.on('iceCandidate', function(data){
 		io.sockets.emit('iceCandidate', data);
-		console.log('iceCandidate: %s', JSON.stringify(data));
 	});
 	
 	// Send SDP
 	socket.on('exchange', function(data){
 		io.sockets.emit('exchange', data);
-		console.log('exchange: %s', JSON.stringify(data));
 	});
 });
