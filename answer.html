@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T17:10:25+0900" >
+	<meta name="date" content="2017-08-28T17:35:49+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -89,6 +89,17 @@
 				});
 			});
 
+			// SET REMOTE DESCRIPTION ---------------------------
+			socket.on("exchange", function(offer){
+				localPeerConnection.setRemoteDescription(offer);
+				localPeerConnection.createAnswer().then(function(answer) {
+					return localPeerConnection.setLocalDescription(answer);
+				}).then(function() {
+					socket.emit('exchange', {'to': 'offer', 'sdp': localPeerConnection.localDescription });
+				}).catch(handleGetUserMediaError);
+					console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+				});
+
 /*			$callButton.click(function() {
 				
 
@@ -118,10 +129,7 @@
 				log("Remote ICE candidate: \n " + iceCandidate);
 			});
 /*			
-			// SET REMOTE DESCRIPTION ---------------------------
-			socket.on("description", function(description){
-				localPeerConnection.setRemoteDescription(description);
-			});
+
 			
 			// ADD REMOTE STREAM ---------------------------
 			socket.on("addStream", function(event){

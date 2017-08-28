@@ -4,7 +4,7 @@
 	<title>CamFun 1.0.0</title>
 	<meta name="generator" content="Bluefish 2.2.7" >
 	<meta name="author" content="Anton Yun" >
-	<meta name="date" content="2017-08-28T17:31:13+0900" >
+	<meta name="date" content="2017-08-28T17:36:04+0900" >
 	<meta name="copyright" content="">
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -102,16 +102,8 @@
 					return localPeerConnection.setLocalDescription(offer);
 				}).then(function() {
 					socket.emit('exchange', {'to': 'answer', 'sdp': localPeerConnection.localDescription });
-					
-					
-					// Here was gotLocalDescription function
-/*					sendToServer({
-						name: myUsername,
-						target: targetUsername,
-						type: "video-offer",
-						sdp: myPeerConnection.localDescription
-*/					}).catch(function(reason) {
-					console.log('Failed to create signaling message : ' + reason.name);
+				}).catch(function(handleGetUserMediaError) {
+					console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
 				});				
 				
 			});
@@ -123,8 +115,8 @@
 			});
 			
 			// SET REMOTE DESCRIPTION ---------------------------
-			socket.on("description", function(description){
-				localPeerConnection.setRemoteDescription(description);
+			socket.on("exchange", function(answer){
+				localPeerConnection.setRemoteDescription(answer);
 			});
 			
 			// ADD REMOTE STREAM ---------------------------
