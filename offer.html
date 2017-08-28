@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CamFun 1.0.0</title>
+	<meta name="generator" content="Bluefish 2.2.7" >
+	<meta name="author" content="Anton Yun" >
+	<meta name="date" content="2017-08-28T16:26:00+0900" >
+	<meta name="copyright" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+	<meta http-equiv="content-style-type" content="text/css">
+	<meta http-equiv="expires" content="0">
+	<link href="" rel="stylesheet" type="text/css">
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="socket.io/socket.io.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+	<h1>Peer-To-Peer video chat CamFun 1.0.0</h1>
+	<h3>Only 2 users are available now.</h3>
+	<p>Offer Side.</p>
+	<table>
+		<thead>
+			<tr>
+				<td>Local Stream</td>
+				<td>Remote Stream</td>			
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><video id="localVideo" autoplay></video></td>
+				<td><video id="remoteVideo" autoplay></video></td>			
+			</tr>
+		</tbody>	
+	</table>
+	<div>
+		<button id="startButton">Start</button>
+		<button id="callButton">Call</button>
+		<button id="hangupButton">Hang Up</button>
+	</div>
+	<script>
+		$(function(){
+			var socket = io.connect();
+			var localStream, localPeerConnection;
+			var configuration = {"iceServers":[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:luckydrawhk.com:3478","credential":"pfhMZ5eDFu4Er5xf","username":"lovely"}]};
+			
+			var $localVideo = $('#localVideo');
+			var $remoteVideo = $('#remoteVideo');
+			
+			var $startButton = $('#startButton');
+			var $callButton = $('#callButton');
+			var $hangupButton = $('#hangupButton');
+			
+			$startButton.prop("disabled",false);
+			$callButton.prop("disabled",true);
+			$hangupButton.prop("disabled",true);
+			
+			function log(text) {
+				console.log("At time: " + (performance.now() / 1000).toFixed(3) + " --> " + text);
+			}
+			
+			$startButton.click(function() {
+				log("Requesting local stream");
+				$startButton.prop("disabled",true);
+				navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
+					log("Received local stream");
+					localVideo.srcObject = stream;
+					localStream = stream;
+					$callButton.prop("disabled",false);
+				}).catch(function(error) {
+					log("navigator.getUserMedia error: ", error);
+				});
+			});
+
+			$callButton.click(function() {
+				$callButton.prop("disabled",true);
+				$hangupButton.prop("disabled",false);
+				log("Starting call");
+				if (localStream.getVideoTracks().length > 0) {
+					log('Using video device: ' + localStream.getVideoTracks()[0].label);
+				}
+				if (localStream.getAudioTracks().length > 0) {
+					log('Using audio device: ' + localStream.getAudioTracks()[0].label);
+				}
+				log("RTCPeerConnection object: " + RTCPeerConnection);
+				localPeerConnection = new RTCPeerConnection(configuration);
+				log("Created local peer connection object localPeerConnection");
+				
+				localPeerConnection.onicecandidate = function(event){
+					if (!event || !event.candidate) return;
+					socket.emit("iceCandidate", event.candidate);
+					log("Local ICE candidate: \n" + event.candidate.candidate);
+				};
+				
+				localPeerConnection.addStream(localStream);
+				log("Added localStream to localPeerConnection");
+				localPeerConnection.createOffer().then(function(offer) {
+					return localPeerConnection.setLocalDescription(offer);
+				}).then(function() {
+					// Here was gotLocalDescription function
+/*					sendToServer({
+						name: myUsername,
+						target: targetUsername,
+						type: "video-offer",
+						sdp: myPeerConnection.localDescription
+*/					}).catch(function(reason) {
+					console.log('Failed to create signaling message : ' + reason.name);
+				});				
+				
+			});
+			
+			// ADD ICE CANDIDATE ---------------------------
+			socket.on("iceCandidate", function(iceCandidate){
+				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+			});
+			
+			// SET REMOTE DESCRIPTION ---------------------------
+			socket.on("description", function(description){
+				localPeerConnection.setRemoteDescription(description);
+			});
+			
+			// ADD REMOTE STREAM ---------------------------
+			socket.on("addStream", function(event){
+				remoteVideo.srcObject = event.stream;
+			});
+		});
+	</script>
+</body>
+</html>
