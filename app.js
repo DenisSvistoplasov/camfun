@@ -31,9 +31,15 @@ io.sockets.on('connection', function(socket){
 		console.log('Disconnected: %s sockets connected', connections.length);
 	});
 
-	// Send Message
+	// Send iceCandidate
 	socket.on('iceCandidate', function(data){
 		io.sockets.emit('iceCandidate', data);
 		console.log('iceCandidate: %s', data);
+	});
+	
+	// Send SDP
+	socket.on('description', function(data){
+		io.sockets.emit('description', data);
+		console.log('description: %s', data);
 	});
 });
