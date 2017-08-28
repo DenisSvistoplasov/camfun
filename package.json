@@ -1,7 +1,7 @@
 {
- "name": "camfun_web_app",
+ "name": "docker_web_app",
  "version": "1.0.0",
- "description": "Video Chat on Docker",
+ "description": "Node.js on Docker",
  "author": "IUN ANTON <iunanton@naver.com>",
  "main": "app.js",
  "scripts": {
