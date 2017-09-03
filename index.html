@@ -51,13 +51,45 @@
 	</tbody>
 </table>
 <script type="text/javascript">
+	var localStream, localPeerConnection;
+
+	var configuration = {"iceServers":[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:luckydrawhk.com:3478","credential":"pfhMZ5eDFu4Er5xf","username":"lovely"}]};
+
+	socket = new WebSocket('ws://172.17.0.4');
+
+	navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
+		localVideo.srcObject = stream;
+		localStream = stream;
+	}).catch(function(error) {
+		log("navigator.getUserMedia error: ", error);
+	});
+
 	document.getElementById("form").addEventListener("submit", function(event){
 		event.preventDefault();
 		socket.send(document.getElementById("remote-id").value);
 		// document.getElementById("form").style.display = 'none';
+		localPeerConnection = new RTCPeerConnection(configuration);
+		localPeerConnection.onicecandidate = function(event){
+			if (!event || !event.candidate) return;
+			console.log(JSON.stringify(event.candidate));
+			socket.send(JSON.stringify(event.candidate));
+		};
+		localPeerConnection.ontrack = function (event) {
+			remoteVideo.srcObject = event.streams[0];
+		};
+		localPeerConnection.addStream(localStream);
+		
+		localPeerConnection.createOffer(function(offer) {
+			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
+				console.log(JSON.stringify(offer));
+				socket.send(JSON.stringify(offer));
+			}, function(handleGetUserMediaError){
+				console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+			});
+		}, function(handleGetUserMediaError){
+			console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+		});
 	}, false);
-
-	socket = new WebSocket('ws://172.17.0.4');
 
 	socket.onmessage = function(event) {
 		document.getElementById("peer-id").innerHTML = event.data;
