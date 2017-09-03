@@ -36,7 +36,7 @@ wss.on('connection', function(ws, req) {
 		data = JSON.parse(message);
 		console.log('type of data: %s', data.type);
 		console.log('trying send to %s..', data.to);
-		// clients[data.to].send(message);
+		clients[data.to].send(message);
 	});
 
 	ws.send(JSON.stringify({ "type" : "id", "id" : id }));

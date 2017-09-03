@@ -98,7 +98,13 @@
 			case "id":
 				document.getElementById("peer-id").innerHTML = message.id;
 				break;
-		  }
+			case "candidate":
+				console.log(JSON.stringify(message.candidate));
+				break;
+			case "description":
+				console.log(JSON.stringify(message.description));
+				break;
+		}
 	};
 </script>
 </body>
