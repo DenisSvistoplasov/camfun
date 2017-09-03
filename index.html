@@ -76,7 +76,6 @@
 				"candidate" : event.candidate.candidate,
 				"sdpMid" : event.candidate.sdpMid,
 				"sdpMLineIndex" : event.candidate.sdpMLineIndex };
-			console.log(candidate);
 			socket.send(candidate);
 		};
 		localPeerConnection.ontrack = function (event) {
@@ -89,7 +88,6 @@
 				description = { "to" : id,
 				"type" : offer.type,
 				"sdp" : offer.sdp };
-				console.log(description);
 				socket.send(description);
 			}, function(handleGetUserMediaError){
 				console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
