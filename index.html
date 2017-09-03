@@ -4,7 +4,7 @@
 <title>WebSocket</title>
 <meta name="generator" content="Bluefish 2.2.7" >
 <meta name="author" content="Anton Yun" >
-<meta name="date" content="2017-09-02T03:03:04+0900" >
+<meta name="date" content="2017-09-02T03:04:27+0900" >
 <meta name="copyright" content="">
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -128,6 +128,9 @@
 						console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
 					});
 				});
+				break;
+			case "answer":
+				document.getElementById("remote-id").disabled = true;
 				break;
 		}
 	};
