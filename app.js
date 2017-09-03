@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const WebSocket = require('ws');
 
-var clients={};
+var clients = {};
 
 const server = http.createServer( function(req, res) {
 	console.log('Request URL: %s', req.url);
@@ -37,9 +37,18 @@ wss.on('connection', function(ws, req) {
 
 	ws.on('message', function(message) {
 		destination = JSON.parse(message).to;
-		type = JSON.parse(message).type;
-		console.log('Data forwarded from %s to %s, type: %s', id, destination, type);
-		clients[destination].send(message);
+		console.log(destination);
+		console.log(Object.keys(clients));
+		console.log(Object.keys(clients).indexOf(destination) + 1);
+		if (Object.keys(clients).indexOf(destination) + 1) {
+			type = JSON.parse(message).type;
+			clients[destination].send(message);
+			console.log('Data forwarded from %s to %s, type: %s', id, destination, type);
+		} else {
+			message = JSON.stringify({ "type" : "error", "error" : "remote peer id not correct" });
+			ws.send(message);
+			console.log('Wrong destination');
+		}
 	});
 });
 

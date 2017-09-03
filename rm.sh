@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker stop websocket
-docker rm websocket
-docker rmi websocket
+docker stop camfun2
+docker rm camfun2
+docker rmi camfun2
 
