@@ -4,7 +4,7 @@
 <title>WebSocket</title>
 <meta name="generator" content="Bluefish 2.2.7" >
 <meta name="author" content="Anton Yun" >
-<meta name="date" content="2017-08-31T23:10:04+0900" >
+<meta name="date" content="2017-09-02T03:03:04+0900" >
 <meta name="copyright" content="">
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -51,9 +51,10 @@
 	</tbody>
 </table>
 <script type="text/javascript">
-	var localStream, localPeerConnection;
-
+	var localId, remoteId;
+	var localStream;
 	var configuration = {"iceServers":[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:luckydrawhk.com:3478","credential":"pfhMZ5eDFu4Er5xf","username":"lovely"}]};
+	var localPeerConnection = new RTCPeerConnection(configuration);
 
 	socket = new WebSocket('ws://172.17.0.4');
 
@@ -66,14 +67,11 @@
 
 	document.getElementById("form").addEventListener("submit", function(event){
 		event.preventDefault();
-		id = document.getElementById("remote-id").value;
-		// socket.send(document.getElementById("remote-id").value);
-		// document.getElementById("form").style.display = 'none';
-		localPeerConnection = new RTCPeerConnection(configuration);
+		remoteId = document.getElementById("remote-id").value;	
 		localPeerConnection.onicecandidate = function(event){
 			if (!localPeerConnection || !event || !event.candidate) return;
 			var candidate = event.candidate;
-			var message = JSON.stringify({ "to" : id, "type" : "candidate", "candidate" : candidate });
+			var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "candidate", "iceCandidate" : candidate });
 			socket.send(message);
 		};
 		localPeerConnection.ontrack = function (event) {
@@ -83,7 +81,7 @@
 		
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
-				var message = JSON.stringify({ "to" : id, "type" : "offer", "description" : offer });
+				var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "offer", "SessionDescription" : offer });
 				socket.send(message);
 			}, function(handleGetUserMediaError){
 				console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
@@ -97,14 +95,39 @@
 		var data = JSON.parse(event.data);
 		switch(data.type) {
 			case "id":
-				document.getElementById("peer-id").innerHTML = data.id;
+				localId = data.id;
+				document.getElementById("peer-id").innerHTML = localId;
 				break;
 			case "candidate":
-				iceCandidate = JSON.parse(data.candidate);
-				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+				localPeerConnection.addIceCandidate(new RTCIceCandidate(data.iceCandidate));
 				break;
-			case "description":
-				// console.log(JSON.stringify(data.description));
+			case "offer":
+				remoteId = data.from;
+				document.getElementById("remote-id").value = remoteId;
+				document.getElementById("remote-id").disabled = true;
+				localPeerConnection.onicecandidate = function(event){
+					if (!localPeerConnection || !event || !event.candidate) return;
+					var candidate = event.candidate;
+					var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "candidate", "iceCandidate" : candidate });
+					socket.send(message);
+				};
+				localPeerConnection.ontrack = function (event) {
+					remoteVideo.srcObject = event.streams[0];
+				};
+				localPeerConnection.addStream(localStream);
+				console.log(data.SessionDescription);
+				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
+					localPeerConnection.createAnswer(function(answer) {
+						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function() {
+							var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "answer", "SessionDescription" : answer });
+							socket.send(message);
+						}, function(handleGetUserMediaError){
+							console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+						});
+					}, function(handleGetUserMediaError){
+						console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
+					});
+				});
 				break;
 		}
 	};
