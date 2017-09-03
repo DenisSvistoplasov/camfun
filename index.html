@@ -66,13 +66,14 @@
 
 	document.getElementById("form").addEventListener("submit", function(event){
 		event.preventDefault();
-		socket.send(document.getElementById("remote-id").value);
+		id = document.getElementById("remote-id").value;
+		// socket.send(document.getElementById("remote-id").value);
 		// document.getElementById("form").style.display = 'none';
 		localPeerConnection = new RTCPeerConnection(configuration);
 		localPeerConnection.onicecandidate = function(event){
 			if (!event || !event.candidate) return;
 			console.log(JSON.stringify(event.candidate));
-			socket.send(JSON.stringify(event.candidate));
+			socket.send(event.candidate);
 		};
 		localPeerConnection.ontrack = function (event) {
 			remoteVideo.srcObject = event.streams[0];
@@ -81,8 +82,12 @@
 		
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
-				console.log(JSON.stringify(offer));
-				socket.send(JSON.stringify(offer));
+				offer.push({
+					key:   "to",
+					value: id
+				});
+				console.log(offer);
+				socket.send(offer);
 			}, function(handleGetUserMediaError){
 				console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
 			});
