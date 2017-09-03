@@ -1,43 +1,43 @@
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
-users = [];
-connections =[];
+const http = require('http');
+const fs = require('fs');
+const WebSocket = require('ws');
 
-server.listen(process.env.PORT || 80);
-console.log('Server running...');
+var clients={};
 
-app.get('/', function(req, res){
-	res.sendFile(__dirname + '/offer.html');
+const server = http.createServer( function(req, res) {
+	console.log('Request URL: %s', req.url);
+	console.log('Request header: %s', JSON.stringify(req.headers));
+	fs.readFile('index.html', null, function(error, data) {
+		if (error) {
+			res.writeHead(404);
+			res.write('File not found');
+		} else {
+			res.writeHead(200, { 'Content-type': 'text/html' });
+			res.write(data);
+		};
+		res.end();
+	});
 });
 
-app.get('/offer.html', function(req, res){
-	res.sendFile(__dirname + '/offer.html');
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', function(ws, req) {
+	id = req.headers['sec-websocket-key'].substr(0, 16);
+	clients[id] = ws;
+	console.log('new connection established %s', id);
+
+	ws.on('close', function(event) {
+		delete clients[id];
+		console.log('connection closed %s', id);
+	});
+
+	ws.on('message', function(data) {
+		console.log('incoming data from %s: %s\n', id, data);
+	});
+
+	ws.send(id);
 });
 
-app.get('/answer.html', function(req, res){
-	res.sendFile(__dirname + '/answer.html');
-});
-
-io.sockets.on('connection', function(socket){
-	connections.push(socket);
-	console.log('Connected: %s sockets connected', connections.length);
-
-	// Disconnect
-	socket.on('disconnect', function(data){
-		users.splice(users.indexOf(socket.username), 1);
-		connections.splice(connections.indexOf(socket), 1);
-		console.log('Disconnected: %s sockets connected', connections.length);
-	});
-
-	// Send iceCandidate
-	socket.on('iceCandidate', function(data){
-		io.sockets.emit('iceCandidate', data);
-	});
-	
-	// Send SDP
-	socket.on('exchange', function(data){
-		io.sockets.emit('exchange', data);
-	});
+server.listen(80, function() {
+	console.log('Listening on %d', server.address().port);
 });

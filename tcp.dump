@@ -1,0 +1,429 @@
+17:21:41.340921 IP (tos 0x0, ttl 64, id 3164, offset 0, flags [DF], proto TCP (6), length 60)
+    172.17.0.1.56562 > 172.17.0.3.http: Flags [S], cksum 0x5855 (incorrect -> 0x7e61), seq 951488867, win 29200, options [mss 1460,sackOK,TS val 3068240169 ecr 0,nop,wscale 7], length 0
+	0x0000:  4500 003c 0c5c 4000 4006 d639 ac11 0001  E..<.\@.@..9....
+	0x0010:  ac11 0003 dcf2 0050 38b6 9163 0000 0000  .......P8..c....
+	0x0020:  a002 7210 5855 0000 0204 05b4 0402 080a  ..r.XU..........
+	0x0030:  b6e1 a129 0000 0000 0103 0307            ...)........
+17:21:41.340953 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    172.17.0.3.http > 172.17.0.1.56562: Flags [S.], cksum 0x5855 (incorrect -> 0x2081), seq 785121728, ack 951488868, win 28960, options [mss 1460,sackOK,TS val 2122035127 ecr 3068240169,nop,wscale 7], length 0
+	0x0000:  4500 003c 0000 4000 4006 e295 ac11 0003  E..<..@.@.......
+	0x0010:  ac11 0001 0050 dcf2 2ecc 01c0 38b6 9164  .....P......8..d
+	0x0020:  a012 7120 5855 0000 0204 05b4 0402 080a  ..q.XU..........
+	0x0030:  7e7b afb7 b6e1 a129 0103 0307            ~{.....)....
+17:21:41.340968 IP (tos 0x0, ttl 64, id 3165, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.1.56562 > 172.17.0.3.http: Flags [.], cksum 0x584d (incorrect -> 0xbf88), seq 1, ack 1, win 229, options [nop,nop,TS val 3068240169 ecr 2122035127], length 0
+	0x0000:  4500 0034 0c5d 4000 4006 d640 ac11 0001  E..4.]@.@..@....
+	0x0010:  ac11 0003 dcf2 0050 38b6 9164 2ecc 01c1  .......P8..d....
+	0x0020:  8010 00e5 584d 0000 0101 080a b6e1 a129  ....XM.........)
+	0x0030:  7e7b afb7                                ~{..
+17:21:41.341114 IP (tos 0x0, ttl 64, id 3166, offset 0, flags [DF], proto TCP (6), length 370)
+    172.17.0.1.56562 > 172.17.0.3.http: Flags [P.], cksum 0x598b (incorrect -> 0x5cfb), seq 1:319, ack 1, win 229, options [nop,nop,TS val 3068240169 ecr 2122035127], length 318: HTTP, length: 318
+	GET / HTTP/1.1
+	Host: 172.17.0.3
+	User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0
+	Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+	Accept-Language: en-US,en;q=0.5
+	Accept-Encoding: gzip, deflate
+	Connection: keep-alive
+	Upgrade-Insecure-Requests: 1
+	
+	0x0000:  4500 0172 0c5e 4000 4006 d501 ac11 0001  E..r.^@.@.......
+	0x0010:  ac11 0003 dcf2 0050 38b6 9164 2ecc 01c1  .......P8..d....
+	0x0020:  8018 00e5 598b 0000 0101 080a b6e1 a129  ....Y..........)
+	0x0030:  7e7b afb7 4745 5420 2f20 4854 5450 2f31  ~{..GET./.HTTP/1
+	0x0040:  2e31 0d0a 486f 7374 3a20 3137 322e 3137  .1..Host:.172.17
+	0x0050:  2e30 2e33 0d0a 5573 6572 2d41 6765 6e74  .0.3..User-Agent
+	0x0060:  3a20 4d6f 7a69 6c6c 612f 352e 3020 2858  :.Mozilla/5.0.(X
+	0x0070:  3131 3b20 5562 756e 7475 3b20 4c69 6e75  11;.Ubuntu;.Linu
+	0x0080:  7820 7838 365f 3634 3b20 7276 3a35 352e  x.x86_64;.rv:55.
+	0x0090:  3029 2047 6563 6b6f 2f32 3031 3030 3130  0).Gecko/2010010
+	0x00a0:  3120 4669 7265 666f 782f 3535 2e30 0d0a  1.Firefox/55.0..
+	0x00b0:  4163 6365 7074 3a20 7465 7874 2f68 746d  Accept:.text/htm
+	0x00c0:  6c2c 6170 706c 6963 6174 696f 6e2f 7868  l,application/xh
+	0x00d0:  746d 6c2b 786d 6c2c 6170 706c 6963 6174  tml+xml,applicat
+	0x00e0:  696f 6e2f 786d 6c3b 713d 302e 392c 2a2f  ion/xml;q=0.9,*/
+	0x00f0:  2a3b 713d 302e 380d 0a41 6363 6570 742d  *;q=0.8..Accept-
+	0x0100:  4c61 6e67 7561 6765 3a20 656e 2d55 532c  Language:.en-US,
+	0x0110:  656e 3b71 3d30 2e35 0d0a 4163 6365 7074  en;q=0.5..Accept
+	0x0120:  2d45 6e63 6f64 696e 673a 2067 7a69 702c  -Encoding:.gzip,
+	0x0130:  2064 6566 6c61 7465 0d0a 436f 6e6e 6563  .deflate..Connec
+	0x0140:  7469 6f6e 3a20 6b65 6570 2d61 6c69 7665  tion:.keep-alive
+	0x0150:  0d0a 5570 6772 6164 652d 496e 7365 6375  ..Upgrade-Insecu
+	0x0160:  7265 2d52 6571 7565 7374 733a 2031 0d0a  re-Requests:.1..
+	0x0170:  0d0a                                     ..
+17:21:41.341131 IP (tos 0x0, ttl 64, id 40190, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.3.http > 172.17.0.1.56562: Flags [.], cksum 0x584d (incorrect -> 0xbe44), seq 1, ack 319, win 235, options [nop,nop,TS val 2122035127 ecr 3068240169], length 0
+	0x0000:  4500 0034 9cfe 4000 4006 459f ac11 0003  E..4..@.@.E.....
+	0x0010:  ac11 0001 0050 dcf2 2ecc 01c1 38b6 92a2  .....P......8...
+	0x0020:  8010 00eb 584d 0000 0101 080a 7e7b afb7  ....XM......~{..
+	0x0030:  b6e1 a129                                ...)
+17:21:41.341882 IP (tos 0x0, ttl 64, id 40191, offset 0, flags [DF], proto TCP (6), length 1085)
+    172.17.0.3.http > 172.17.0.1.56562: Flags [P.], cksum 0x5c56 (incorrect -> 0xa47c), seq 1:1034, ack 319, win 235, options [nop,nop,TS val 2122035127 ecr 3068240169], length 1033: HTTP, length: 1033
+	HTTP/1.1 200 OK
+	Content-type: text/html
+	Date: Fri, 01 Sep 2017 08:21:41 GMT
+	Connection: keep-alive
+	Transfer-Encoding: chunked
+	
+	378
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title>WebSocket</title>
+	<meta name="generator" content="Bluefish 2.2.7" >
+	<meta name="author" content="Anton Yun" >
+	<meta name="date" content="2017-08-31T23:10:04+0900" >
+	<meta name="copyright" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+	<meta http-equiv="content-style-type" content="text/css">
+	<meta http-equiv="expires" content="0">
+	</head>
+	<body>
+	<h1>WebSocket</h1>
+	<p>Try to transmit "7Jyk7JWI7Yak" sequence. Check log file in the server.</p>
+	<script type="text/javascript">
+		socket = new WebSocket('ws://172.17.0.3');
+		socket.onopen = function (event) {
+			socket.send("7Jyk7JWI7Yak");
+		};
+	</script>
+	</body>
+	</html>
+	
+	0
+	
+	0x0000:  4500 043d 9cff 4000 4006 4195 ac11 0003  E..=..@.@.A.....
+	0x0010:  ac11 0001 0050 dcf2 2ecc 01c1 38b6 92a2  .....P......8...
+	0x0020:  8018 00eb 5c56 0000 0101 080a 7e7b afb7  ....\V......~{..
+	0x0030:  b6e1 a129 4854 5450 2f31 2e31 2032 3030  ...)HTTP/1.1.200
+	0x0040:  204f 4b0d 0a43 6f6e 7465 6e74 2d74 7970  .OK..Content-typ
+	0x0050:  653a 2074 6578 742f 6874 6d6c 0d0a 4461  e:.text/html..Da
+	0x0060:  7465 3a20 4672 692c 2030 3120 5365 7020  te:.Fri,.01.Sep.
+	0x0070:  3230 3137 2030 383a 3231 3a34 3120 474d  2017.08:21:41.GM
+	0x0080:  540d 0a43 6f6e 6e65 6374 696f 6e3a 206b  T..Connection:.k
+	0x0090:  6565 702d 616c 6976 650d 0a54 7261 6e73  eep-alive..Trans
+	0x00a0:  6665 722d 456e 636f 6469 6e67 3a20 6368  fer-Encoding:.ch
+	0x00b0:  756e 6b65 640d 0a0d 0a33 3738 0d0a 3c21  unked....378..<!
+	0x00c0:  444f 4354 5950 4520 6874 6d6c 3e0a 3c68  DOCTYPE.html>.<h
+	0x00d0:  746d 6c3e 0a3c 6865 6164 3e0a 3c74 6974  tml>.<head>.<tit
+	0x00e0:  6c65 3e57 6562 536f 636b 6574 3c2f 7469  le>WebSocket</ti
+	0x00f0:  746c 653e 0a3c 6d65 7461 206e 616d 653d  tle>.<meta.name=
+	0x0100:  2267 656e 6572 6174 6f72 2220 636f 6e74  "generator".cont
+	0x0110:  656e 743d 2242 6c75 6566 6973 6820 322e  ent="Bluefish.2.
+	0x0120:  322e 3722 203e 0a3c 6d65 7461 206e 616d  2.7".>.<meta.nam
+	0x0130:  653d 2261 7574 686f 7222 2063 6f6e 7465  e="author".conte
+	0x0140:  6e74 3d22 416e 746f 6e20 5975 6e22 203e  nt="Anton.Yun".>
+	0x0150:  0a3c 6d65 7461 206e 616d 653d 2264 6174  .<meta.name="dat
+	0x0160:  6522 2063 6f6e 7465 6e74 3d22 3230 3137  e".content="2017
+	0x0170:  2d30 382d 3331 5432 333a 3130 3a30 342b  -08-31T23:10:04+
+	0x0180:  3039 3030 2220 3e0a 3c6d 6574 6120 6e61  0900".>.<meta.na
+	0x0190:  6d65 3d22 636f 7079 7269 6768 7422 2063  me="copyright".c
+	0x01a0:  6f6e 7465 6e74 3d22 223e 0a3c 6d65 7461  ontent="">.<meta
+	0x01b0:  206e 616d 653d 226b 6579 776f 7264 7322  .name="keywords"
+	0x01c0:  2063 6f6e 7465 6e74 3d22 223e 0a3c 6d65  .content="">.<me
+	0x01d0:  7461 206e 616d 653d 2264 6573 6372 6970  ta.name="descrip
+	0x01e0:  7469 6f6e 2220 636f 6e74 656e 743d 2222  tion".content=""
+	0x01f0:  3e0a 3c6d 6574 6120 6e61 6d65 3d22 524f  >.<meta.name="RO
+	0x0200:  424f 5453 2220 636f 6e74 656e 743d 224e  BOTS".content="N
+	0x0210:  4f49 4e44 4558 2c20 4e4f 464f 4c4c 4f57  OINDEX,.NOFOLLOW
+	0x0220:  223e 0a3c 6d65 7461 2068 7474 702d 6571  ">.<meta.http-eq
+	0x0230:  7569 763d 2263 6f6e 7465 6e74 2d74 7970  uiv="content-typ
+	0x0240:  6522 2063 6f6e 7465 6e74 3d22 7465 7874  e".content="text
+	0x0250:  2f68 746d 6c3b 2063 6861 7273 6574 3d55  /html;.charset=U
+	0x0260:  5446 2d38 223e 0a3c 6d65 7461 2068 7474  TF-8">.<meta.htt
+	0x0270:  702d 6571 7569 763d 2263 6f6e 7465 6e74  p-equiv="content
+	0x0280:  2d74 7970 6522 2063 6f6e 7465 6e74 3d22  -type".content="
+	0x0290:  6170 706c 6963 6174 696f 6e2f 7868 746d  application/xhtm
+	0x02a0:  6c2b 786d 6c3b 2063 6861 7273 6574 3d55  l+xml;.charset=U
+	0x02b0:  5446 2d38 223e 0a3c 6d65 7461 2068 7474  TF-8">.<meta.htt
+	0x02c0:  702d 6571 7569 763d 2263 6f6e 7465 6e74  p-equiv="content
+	0x02d0:  2d73 7479 6c65 2d74 7970 6522 2063 6f6e  -style-type".con
+	0x02e0:  7465 6e74 3d22 7465 7874 2f63 7373 223e  tent="text/css">
+	0x02f0:  0a3c 6d65 7461 2068 7474 702d 6571 7569  .<meta.http-equi
+	0x0300:  763d 2265 7870 6972 6573 2220 636f 6e74  v="expires".cont
+	0x0310:  656e 743d 2230 223e 0a3c 2f68 6561 643e  ent="0">.</head>
+	0x0320:  0a3c 626f 6479 3e0a 3c68 313e 5765 6253  .<body>.<h1>WebS
+	0x0330:  6f63 6b65 743c 2f68 313e 0a3c 703e 5472  ocket</h1>.<p>Tr
+	0x0340:  7920 746f 2074 7261 6e73 6d69 7420 2237  y.to.transmit."7
+	0x0350:  4a79 6b37 4a57 4937 5961 6b22 2073 6571  Jyk7JWI7Yak".seq
+	0x0360:  7565 6e63 652e 2043 6865 636b 206c 6f67  uence..Check.log
+	0x0370:  2066 696c 6520 696e 2074 6865 2073 6572  .file.in.the.ser
+	0x0380:  7665 722e 3c2f 703e 0a3c 7363 7269 7074  ver.</p>.<script
+	0x0390:  2074 7970 653d 2274 6578 742f 6a61 7661  .type="text/java
+	0x03a0:  7363 7269 7074 223e 0a09 736f 636b 6574  script">..socket
+	0x03b0:  203d 206e 6577 2057 6562 536f 636b 6574  .=.new.WebSocket
+	0x03c0:  2827 7773 3a2f 2f31 3732 2e31 372e 302e  ('ws://172.17.0.
+	0x03d0:  3327 293b 0a09 736f 636b 6574 2e6f 6e6f  3');..socket.ono
+	0x03e0:  7065 6e20 3d20 6675 6e63 7469 6f6e 2028  pen.=.function.(
+	0x03f0:  6576 656e 7429 207b 0a09 0973 6f63 6b65  event).{...socke
+	0x0400:  742e 7365 6e64 2822 374a 796b 374a 5749  t.send("7Jyk7JWI
+	0x0410:  3759 616b 2229 3b0a 097d 3b0a 3c2f 7363  7Yak");..};.</sc
+	0x0420:  7269 7074 3e0a 3c2f 626f 6479 3e0a 3c2f  ript>.</body>.</
+	0x0430:  6874 6d6c 3e0a 0d0a 300d 0a0d 0a         html>...0....
+17:21:41.341894 IP (tos 0x0, ttl 64, id 3167, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.1.56562 > 172.17.0.3.http: Flags [.], cksum 0x584d (incorrect -> 0xba31), seq 319, ack 1034, win 245, options [nop,nop,TS val 3068240169 ecr 2122035127], length 0
+	0x0000:  4500 0034 0c5f 4000 4006 d63e ac11 0001  E..4._@.@..>....
+	0x0010:  ac11 0003 dcf2 0050 38b6 92a2 2ecc 05ca  .......P8.......
+	0x0020:  8010 00f5 584d 0000 0101 080a b6e1 a129  ....XM.........)
+	0x0030:  7e7b afb7                                ~{..
+17:21:41.399520 IP (tos 0x0, ttl 64, id 3168, offset 0, flags [DF], proto TCP (6), length 291)
+    172.17.0.1.56562 > 172.17.0.3.http: Flags [P.], cksum 0x593c (incorrect -> 0x7c96), seq 319:558, ack 1034, win 245, options [nop,nop,TS val 3068240184 ecr 2122035127], length 239: HTTP, length: 239
+	GET /favicon.ico HTTP/1.1
+	Host: 172.17.0.3
+	User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0
+	Accept: */*
+	Accept-Language: en-US,en;q=0.5
+	Accept-Encoding: gzip, deflate
+	Connection: keep-alive
+	
+	0x0000:  4500 0123 0c60 4000 4006 d54e ac11 0001  E..#.`@.@..N....
+	0x0010:  ac11 0003 dcf2 0050 38b6 92a2 2ecc 05ca  .......P8.......
+	0x0020:  8018 00f5 593c 0000 0101 080a b6e1 a138  ....Y<.........8
+	0x0030:  7e7b afb7 4745 5420 2f66 6176 6963 6f6e  ~{..GET./favicon
+	0x0040:  2e69 636f 2048 5454 502f 312e 310d 0a48  .ico.HTTP/1.1..H
+	0x0050:  6f73 743a 2031 3732 2e31 372e 302e 330d  ost:.172.17.0.3.
+	0x0060:  0a55 7365 722d 4167 656e 743a 204d 6f7a  .User-Agent:.Moz
+	0x0070:  696c 6c61 2f35 2e30 2028 5831 313b 2055  illa/5.0.(X11;.U
+	0x0080:  6275 6e74 753b 204c 696e 7578 2078 3836  buntu;.Linux.x86
+	0x0090:  5f36 343b 2072 763a 3535 2e30 2920 4765  _64;.rv:55.0).Ge
+	0x00a0:  636b 6f2f 3230 3130 3031 3031 2046 6972  cko/20100101.Fir
+	0x00b0:  6566 6f78 2f35 352e 300d 0a41 6363 6570  efox/55.0..Accep
+	0x00c0:  743a 202a 2f2a 0d0a 4163 6365 7074 2d4c  t:.*/*..Accept-L
+	0x00d0:  616e 6775 6167 653a 2065 6e2d 5553 2c65  anguage:.en-US,e
+	0x00e0:  6e3b 713d 302e 350d 0a41 6363 6570 742d  n;q=0.5..Accept-
+	0x00f0:  456e 636f 6469 6e67 3a20 677a 6970 2c20  Encoding:.gzip,.
+	0x0100:  6465 666c 6174 650d 0a43 6f6e 6e65 6374  deflate..Connect
+	0x0110:  696f 6e3a 206b 6565 702d 616c 6976 650d  ion:.keep-alive.
+	0x0120:  0a0d 0a                                  ...
+17:21:41.400229 IP (tos 0x0, ttl 64, id 40192, offset 0, flags [DF], proto TCP (6), length 1085)
+    172.17.0.3.http > 172.17.0.1.56562: Flags [P.], cksum 0x5c56 (incorrect -> 0x9f5e), seq 1034:2067, ack 558, win 243, options [nop,nop,TS val 2122035142 ecr 3068240184], length 1033: HTTP, length: 1033
+	HTTP/1.1 200 OK
+	Content-type: text/html
+	Date: Fri, 01 Sep 2017 08:21:41 GMT
+	Connection: keep-alive
+	Transfer-Encoding: chunked
+	
+	378
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title>WebSocket</title>
+	<meta name="generator" content="Bluefish 2.2.7" >
+	<meta name="author" content="Anton Yun" >
+	<meta name="date" content="2017-08-31T23:10:04+0900" >
+	<meta name="copyright" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+	<meta http-equiv="content-style-type" content="text/css">
+	<meta http-equiv="expires" content="0">
+	</head>
+	<body>
+	<h1>WebSocket</h1>
+	<p>Try to transmit "7Jyk7JWI7Yak" sequence. Check log file in the server.</p>
+	<script type="text/javascript">
+		socket = new WebSocket('ws://172.17.0.3');
+		socket.onopen = function (event) {
+			socket.send("7Jyk7JWI7Yak");
+		};
+	</script>
+	</body>
+	</html>
+	
+	0
+	
+	0x0000:  4500 043d 9d00 4000 4006 4194 ac11 0003  E..=..@.@.A.....
+	0x0010:  ac11 0001 0050 dcf2 2ecc 05ca 38b6 9391  .....P......8...
+	0x0020:  8018 00f3 5c56 0000 0101 080a 7e7b afc6  ....\V......~{..
+	0x0030:  b6e1 a138 4854 5450 2f31 2e31 2032 3030  ...8HTTP/1.1.200
+	0x0040:  204f 4b0d 0a43 6f6e 7465 6e74 2d74 7970  .OK..Content-typ
+	0x0050:  653a 2074 6578 742f 6874 6d6c 0d0a 4461  e:.text/html..Da
+	0x0060:  7465 3a20 4672 692c 2030 3120 5365 7020  te:.Fri,.01.Sep.
+	0x0070:  3230 3137 2030 383a 3231 3a34 3120 474d  2017.08:21:41.GM
+	0x0080:  540d 0a43 6f6e 6e65 6374 696f 6e3a 206b  T..Connection:.k
+	0x0090:  6565 702d 616c 6976 650d 0a54 7261 6e73  eep-alive..Trans
+	0x00a0:  6665 722d 456e 636f 6469 6e67 3a20 6368  fer-Encoding:.ch
+	0x00b0:  756e 6b65 640d 0a0d 0a33 3738 0d0a 3c21  unked....378..<!
+	0x00c0:  444f 4354 5950 4520 6874 6d6c 3e0a 3c68  DOCTYPE.html>.<h
+	0x00d0:  746d 6c3e 0a3c 6865 6164 3e0a 3c74 6974  tml>.<head>.<tit
+	0x00e0:  6c65 3e57 6562 536f 636b 6574 3c2f 7469  le>WebSocket</ti
+	0x00f0:  746c 653e 0a3c 6d65 7461 206e 616d 653d  tle>.<meta.name=
+	0x0100:  2267 656e 6572 6174 6f72 2220 636f 6e74  "generator".cont
+	0x0110:  656e 743d 2242 6c75 6566 6973 6820 322e  ent="Bluefish.2.
+	0x0120:  322e 3722 203e 0a3c 6d65 7461 206e 616d  2.7".>.<meta.nam
+	0x0130:  653d 2261 7574 686f 7222 2063 6f6e 7465  e="author".conte
+	0x0140:  6e74 3d22 416e 746f 6e20 5975 6e22 203e  nt="Anton.Yun".>
+	0x0150:  0a3c 6d65 7461 206e 616d 653d 2264 6174  .<meta.name="dat
+	0x0160:  6522 2063 6f6e 7465 6e74 3d22 3230 3137  e".content="2017
+	0x0170:  2d30 382d 3331 5432 333a 3130 3a30 342b  -08-31T23:10:04+
+	0x0180:  3039 3030 2220 3e0a 3c6d 6574 6120 6e61  0900".>.<meta.na
+	0x0190:  6d65 3d22 636f 7079 7269 6768 7422 2063  me="copyright".c
+	0x01a0:  6f6e 7465 6e74 3d22 223e 0a3c 6d65 7461  ontent="">.<meta
+	0x01b0:  206e 616d 653d 226b 6579 776f 7264 7322  .name="keywords"
+	0x01c0:  2063 6f6e 7465 6e74 3d22 223e 0a3c 6d65  .content="">.<me
+	0x01d0:  7461 206e 616d 653d 2264 6573 6372 6970  ta.name="descrip
+	0x01e0:  7469 6f6e 2220 636f 6e74 656e 743d 2222  tion".content=""
+	0x01f0:  3e0a 3c6d 6574 6120 6e61 6d65 3d22 524f  >.<meta.name="RO
+	0x0200:  424f 5453 2220 636f 6e74 656e 743d 224e  BOTS".content="N
+	0x0210:  4f49 4e44 4558 2c20 4e4f 464f 4c4c 4f57  OINDEX,.NOFOLLOW
+	0x0220:  223e 0a3c 6d65 7461 2068 7474 702d 6571  ">.<meta.http-eq
+	0x0230:  7569 763d 2263 6f6e 7465 6e74 2d74 7970  uiv="content-typ
+	0x0240:  6522 2063 6f6e 7465 6e74 3d22 7465 7874  e".content="text
+	0x0250:  2f68 746d 6c3b 2063 6861 7273 6574 3d55  /html;.charset=U
+	0x0260:  5446 2d38 223e 0a3c 6d65 7461 2068 7474  TF-8">.<meta.htt
+	0x0270:  702d 6571 7569 763d 2263 6f6e 7465 6e74  p-equiv="content
+	0x0280:  2d74 7970 6522 2063 6f6e 7465 6e74 3d22  -type".content="
+	0x0290:  6170 706c 6963 6174 696f 6e2f 7868 746d  application/xhtm
+	0x02a0:  6c2b 786d 6c3b 2063 6861 7273 6574 3d55  l+xml;.charset=U
+	0x02b0:  5446 2d38 223e 0a3c 6d65 7461 2068 7474  TF-8">.<meta.htt
+	0x02c0:  702d 6571 7569 763d 2263 6f6e 7465 6e74  p-equiv="content
+	0x02d0:  2d73 7479 6c65 2d74 7970 6522 2063 6f6e  -style-type".con
+	0x02e0:  7465 6e74 3d22 7465 7874 2f63 7373 223e  tent="text/css">
+	0x02f0:  0a3c 6d65 7461 2068 7474 702d 6571 7569  .<meta.http-equi
+	0x0300:  763d 2265 7870 6972 6573 2220 636f 6e74  v="expires".cont
+	0x0310:  656e 743d 2230 223e 0a3c 2f68 6561 643e  ent="0">.</head>
+	0x0320:  0a3c 626f 6479 3e0a 3c68 313e 5765 6253  .<body>.<h1>WebS
+	0x0330:  6f63 6b65 743c 2f68 313e 0a3c 703e 5472  ocket</h1>.<p>Tr
+	0x0340:  7920 746f 2074 7261 6e73 6d69 7420 2237  y.to.transmit."7
+	0x0350:  4a79 6b37 4a57 4937 5961 6b22 2073 6571  Jyk7JWI7Yak".seq
+	0x0360:  7565 6e63 652e 2043 6865 636b 206c 6f67  uence..Check.log
+	0x0370:  2066 696c 6520 696e 2074 6865 2073 6572  .file.in.the.ser
+	0x0380:  7665 722e 3c2f 703e 0a3c 7363 7269 7074  ver.</p>.<script
+	0x0390:  2074 7970 653d 2274 6578 742f 6a61 7661  .type="text/java
+	0x03a0:  7363 7269 7074 223e 0a09 736f 636b 6574  script">..socket
+	0x03b0:  203d 206e 6577 2057 6562 536f 636b 6574  .=.new.WebSocket
+	0x03c0:  2827 7773 3a2f 2f31 3732 2e31 372e 302e  ('ws://172.17.0.
+	0x03d0:  3327 293b 0a09 736f 636b 6574 2e6f 6e6f  3');..socket.ono
+	0x03e0:  7065 6e20 3d20 6675 6e63 7469 6f6e 2028  pen.=.function.(
+	0x03f0:  6576 656e 7429 207b 0a09 0973 6f63 6b65  event).{...socke
+	0x0400:  742e 7365 6e64 2822 374a 796b 374a 5749  t.send("7Jyk7JWI
+	0x0410:  3759 616b 2229 3b0a 097d 3b0a 3c2f 7363  7Yak");..};.</sc
+	0x0420:  7269 7074 3e0a 3c2f 626f 6479 3e0a 3c2f  ript>.</body>.</
+	0x0430:  6874 6d6c 3e0a 0d0a 300d 0a0d 0a         html>...0....
+17:21:41.400252 IP (tos 0x0, ttl 64, id 3169, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.1.56562 > 172.17.0.3.http: Flags [.], cksum 0x584d (incorrect -> 0xb50b), seq 558, ack 2067, win 261, options [nop,nop,TS val 3068240184 ecr 2122035142], length 0
+	0x0000:  4500 0034 0c61 4000 4006 d63c ac11 0001  E..4.a@.@..<....
+	0x0010:  ac11 0003 dcf2 0050 38b6 9391 2ecc 09d3  .......P8.......
+	0x0020:  8010 0105 584d 0000 0101 080a b6e1 a138  ....XM.........8
+	0x0030:  7e7b afc6                                ~{..
+17:21:41.406805 IP (tos 0x0, ttl 64, id 41645, offset 0, flags [DF], proto TCP (6), length 60)
+    172.17.0.1.56564 > 172.17.0.3.http: Flags [S], cksum 0x5855 (incorrect -> 0x9940), seq 1866874850, win 29200, options [mss 1460,sackOK,TS val 3068240185 ecr 0,nop,wscale 7], length 0
+	0x0000:  4500 003c a2ad 4000 4006 3fe8 ac11 0001  E..<..@.@.?.....
+	0x0010:  ac11 0003 dcf4 0050 6f46 3fe2 0000 0000  .......PoF?.....
+	0x0020:  a002 7210 5855 0000 0204 05b4 0402 080a  ..r.XU..........
+	0x0030:  b6e1 a139 0000 0000 0103 0307            ...9........
+17:21:41.406846 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    172.17.0.3.http > 172.17.0.1.56564: Flags [S.], cksum 0x5855 (incorrect -> 0x958d), seq 790734637, ack 1866874851, win 28960, options [mss 1460,sackOK,TS val 2122035143 ecr 3068240185,nop,wscale 7], length 0
+	0x0000:  4500 003c 0000 4000 4006 e295 ac11 0003  E..<..@.@.......
+	0x0010:  ac11 0001 0050 dcf4 2f21 a72d 6f46 3fe3  .....P../!.-oF?.
+	0x0020:  a012 7120 5855 0000 0204 05b4 0402 080a  ..q.XU..........
+	0x0030:  7e7b afc7 b6e1 a139 0103 0307            ~{.....9....
+17:21:41.406867 IP (tos 0x0, ttl 64, id 41646, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.1.56564 > 172.17.0.3.http: Flags [.], cksum 0x584d (incorrect -> 0x3495), seq 1, ack 1, win 229, options [nop,nop,TS val 3068240185 ecr 2122035143], length 0
+	0x0000:  4500 0034 a2ae 4000 4006 3fef ac11 0001  E..4..@.@.?.....
+	0x0010:  ac11 0003 dcf4 0050 6f46 3fe3 2f21 a72e  .......PoF?./!..
+	0x0020:  8010 00e5 584d 0000 0101 080a b6e1 a139  ....XM.........9
+	0x0030:  7e7b afc7                                ~{..
+17:21:41.407695 IP (tos 0x0, ttl 64, id 41647, offset 0, flags [DF], proto TCP (6), length 557)
+    172.17.0.1.56564 > 172.17.0.3.http: Flags [P.], cksum 0x5a46 (incorrect -> 0x1bea), seq 1:506, ack 1, win 229, options [nop,nop,TS val 3068240186 ecr 2122035143], length 505: HTTP, length: 505
+	GET / HTTP/1.1
+	Host: 172.17.0.3
+	User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0
+	Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+	Accept-Language: en-US,en;q=0.5
+	Accept-Encoding: gzip, deflate
+	Sec-WebSocket-Version: 13
+	Origin: http://172.17.0.3
+	Sec-WebSocket-Extensions: permessage-deflate
+	Sec-WebSocket-Key: EtMMZdk4XnI5hT3MCfaJog==
+	Connection: keep-alive, Upgrade
+	Pragma: no-cache
+	Cache-Control: no-cache
+	Upgrade: websocket
+	
+	0x0000:  4500 022d a2af 4000 4006 3df5 ac11 0001  E..-..@.@.=.....
+	0x0010:  ac11 0003 dcf4 0050 6f46 3fe3 2f21 a72e  .......PoF?./!..
+	0x0020:  8018 00e5 5a46 0000 0101 080a b6e1 a13a  ....ZF.........:
+	0x0030:  7e7b afc7 4745 5420 2f20 4854 5450 2f31  ~{..GET./.HTTP/1
+	0x0040:  2e31 0d0a 486f 7374 3a20 3137 322e 3137  .1..Host:.172.17
+	0x0050:  2e30 2e33 0d0a 5573 6572 2d41 6765 6e74  .0.3..User-Agent
+	0x0060:  3a20 4d6f 7a69 6c6c 612f 352e 3020 2858  :.Mozilla/5.0.(X
+	0x0070:  3131 3b20 5562 756e 7475 3b20 4c69 6e75  11;.Ubuntu;.Linu
+	0x0080:  7820 7838 365f 3634 3b20 7276 3a35 352e  x.x86_64;.rv:55.
+	0x0090:  3029 2047 6563 6b6f 2f32 3031 3030 3130  0).Gecko/2010010
+	0x00a0:  3120 4669 7265 666f 782f 3535 2e30 0d0a  1.Firefox/55.0..
+	0x00b0:  4163 6365 7074 3a20 7465 7874 2f68 746d  Accept:.text/htm
+	0x00c0:  6c2c 6170 706c 6963 6174 696f 6e2f 7868  l,application/xh
+	0x00d0:  746d 6c2b 786d 6c2c 6170 706c 6963 6174  tml+xml,applicat
+	0x00e0:  696f 6e2f 786d 6c3b 713d 302e 392c 2a2f  ion/xml;q=0.9,*/
+	0x00f0:  2a3b 713d 302e 380d 0a41 6363 6570 742d  *;q=0.8..Accept-
+	0x0100:  4c61 6e67 7561 6765 3a20 656e 2d55 532c  Language:.en-US,
+	0x0110:  656e 3b71 3d30 2e35 0d0a 4163 6365 7074  en;q=0.5..Accept
+	0x0120:  2d45 6e63 6f64 696e 673a 2067 7a69 702c  -Encoding:.gzip,
+	0x0130:  2064 6566 6c61 7465 0d0a 5365 632d 5765  .deflate..Sec-We
+	0x0140:  6253 6f63 6b65 742d 5665 7273 696f 6e3a  bSocket-Version:
+	0x0150:  2031 330d 0a4f 7269 6769 6e3a 2068 7474  .13..Origin:.htt
+	0x0160:  703a 2f2f 3137 322e 3137 2e30 2e33 0d0a  p://172.17.0.3..
+	0x0170:  5365 632d 5765 6253 6f63 6b65 742d 4578  Sec-WebSocket-Ex
+	0x0180:  7465 6e73 696f 6e73 3a20 7065 726d 6573  tensions:.permes
+	0x0190:  7361 6765 2d64 6566 6c61 7465 0d0a 5365  sage-deflate..Se
+	0x01a0:  632d 5765 6253 6f63 6b65 742d 4b65 793a  c-WebSocket-Key:
+	0x01b0:  2045 744d 4d5a 646b 3458 6e49 3568 5433  .EtMMZdk4XnI5hT3
+	0x01c0:  4d43 6661 4a6f 673d 3d0d 0a43 6f6e 6e65  MCfaJog==..Conne
+	0x01d0:  6374 696f 6e3a 206b 6565 702d 616c 6976  ction:.keep-aliv
+	0x01e0:  652c 2055 7067 7261 6465 0d0a 5072 6167  e,.Upgrade..Prag
+	0x01f0:  6d61 3a20 6e6f 2d63 6163 6865 0d0a 4361  ma:.no-cache..Ca
+	0x0200:  6368 652d 436f 6e74 726f 6c3a 206e 6f2d  che-Control:.no-
+	0x0210:  6361 6368 650d 0a55 7067 7261 6465 3a20  cache..Upgrade:.
+	0x0220:  7765 6273 6f63 6b65 740d 0a0d 0a         websocket....
+17:21:41.407728 IP (tos 0x0, ttl 64, id 14945, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.3.http > 172.17.0.1.56564: Flags [.], cksum 0x584d (incorrect -> 0x3294), seq 1, ack 506, win 235, options [nop,nop,TS val 2122035144 ecr 3068240186], length 0
+	0x0000:  4500 0034 3a61 4000 4006 a83c ac11 0003  E..4:a@.@..<....
+	0x0010:  ac11 0001 0050 dcf4 2f21 a72e 6f46 41dc  .....P../!..oFA.
+	0x0020:  8010 00eb 584d 0000 0101 080a 7e7b afc8  ....XM......~{..
+	0x0030:  b6e1 a13a                                ...:
+17:21:41.408162 IP (tos 0x0, ttl 64, id 14946, offset 0, flags [DF], proto TCP (6), length 181)
+    172.17.0.3.http > 172.17.0.1.56564: Flags [P.], cksum 0x58ce (incorrect -> 0x3392), seq 1:130, ack 506, win 235, options [nop,nop,TS val 2122035144 ecr 3068240186], length 129: HTTP, length: 129
+	HTTP/1.1 101 Switching Protocols
+	Upgrade: websocket
+	Connection: Upgrade
+	Sec-WebSocket-Accept: H/BMsGVTEtn4T0JeJeY21s46yOo=
+	
+	0x0000:  4500 00b5 3a62 4000 4006 a7ba ac11 0003  E...:b@.@.......
+	0x0010:  ac11 0001 0050 dcf4 2f21 a72e 6f46 41dc  .....P../!..oFA.
+	0x0020:  8018 00eb 58ce 0000 0101 080a 7e7b afc8  ....X.......~{..
+	0x0030:  b6e1 a13a 4854 5450 2f31 2e31 2031 3031  ...:HTTP/1.1.101
+	0x0040:  2053 7769 7463 6869 6e67 2050 726f 746f  .Switching.Proto
+	0x0050:  636f 6c73 0d0a 5570 6772 6164 653a 2077  cols..Upgrade:.w
+	0x0060:  6562 736f 636b 6574 0d0a 436f 6e6e 6563  ebsocket..Connec
+	0x0070:  7469 6f6e 3a20 5570 6772 6164 650d 0a53  tion:.Upgrade..S
+	0x0080:  6563 2d57 6562 536f 636b 6574 2d41 6363  ec-WebSocket-Acc
+	0x0090:  6570 743a 2048 2f42 4d73 4756 5445 746e  ept:.H/BMsGVTEtn
+	0x00a0:  3454 304a 654a 6559 3231 7334 3679 4f6f  4T0JeJeY21s46yOo
+	0x00b0:  3d0d 0a0d 0a                             =....
+17:21:41.408171 IP (tos 0x0, ttl 64, id 41648, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.1.56564 > 172.17.0.3.http: Flags [.], cksum 0x584d (incorrect -> 0x3211), seq 506, ack 130, win 237, options [nop,nop,TS val 3068240186 ecr 2122035144], length 0
+	0x0000:  4500 0034 a2b0 4000 4006 3fed ac11 0001  E..4..@.@.?.....
+	0x0010:  ac11 0003 dcf4 0050 6f46 41dc 2f21 a7af  .......PoFA./!..
+	0x0020:  8010 00ed 584d 0000 0101 080a b6e1 a13a  ....XM.........:
+	0x0030:  7e7b afc8                                ~{..
+17:21:41.409058 IP (tos 0x0, ttl 64, id 41649, offset 0, flags [DF], proto TCP (6), length 70)
+    172.17.0.1.56564 > 172.17.0.3.http: Flags [P.], cksum 0x585f (incorrect -> 0xf8cc), seq 506:524, ack 130, win 237, options [nop,nop,TS val 3068240186 ecr 2122035144], length 18: HTTP
+	0x0000:  4500 0046 a2b1 4000 4006 3fda ac11 0001  E..F..@.@.?.....
+	0x0010:  ac11 0003 dcf4 0050 6f46 41dc 2f21 a7af  .......PoFA./!..
+	0x0020:  8018 00ed 585f 0000 0101 080a b6e1 a13a  ....X_.........:
+	0x0030:  7e7b afc8 818c 2971 1349 1e3b 6a22 1e3b  ~{....)q.I.;j".;
+	0x0040:  4400 1e28 7222                           D..(r"
+17:21:41.451298 IP (tos 0x0, ttl 64, id 14947, offset 0, flags [DF], proto TCP (6), length 52)
+    172.17.0.3.http > 172.17.0.1.56564: Flags [.], cksum 0x584d (incorrect -> 0x31f6), seq 130, ack 524, win 235, options [nop,nop,TS val 2122035155 ecr 3068240186], length 0
+	0x0000:  4500 0034 3a63 4000 4006 a83a ac11 0003  E..4:c@.@..:....
+	0x0010:  ac11 0001 0050 dcf4 2f21 a7af 6f46 41ee  .....P../!..oFA.
+	0x0020:  8010 00eb 584d 0000 0101 080a 7e7b afd3  ....XM......~{..
+	0x0030:  b6e1 a13a                                ...:
+

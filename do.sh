@@ -1,10 +1,10 @@
 #!/bin/bash
 
-docker build -t camfun .
+docker build -t websocket .
 docker run --detach \
-	--name=camfun \
+	--name=websocket \
 	--publish-all \
 	--restart=always \
-	camfun > /dev/null
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' camfun
-docker port camfun
+	websocket > /dev/null
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' websocket
+docker port websocket
