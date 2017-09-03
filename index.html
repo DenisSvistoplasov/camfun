@@ -115,7 +115,6 @@
 					remoteVideo.srcObject = event.streams[0];
 				};
 				localPeerConnection.addStream(localStream);
-				console.log(data.SessionDescription);
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
 						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function() {
