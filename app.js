@@ -23,31 +23,26 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function(ws, req) {
 	var id = req.headers['sec-websocket-key'].substr(0, 16);
+	var message = JSON.stringify({ "type" : "id", "id" : id });
+	ws.send(message);
 	clients[id] = ws;
-	console.log('new connection established %s', id);
-	console.log('keep %d connection(s)', length(clients));
+	console.log('Connection established: %s', id);
+	console.log('Keep alive %d connection(s)', Object.keys(clients).length);
 
 	ws.on('close', function(event) {
 		delete clients[id];
-		console.log('close connection for %s', id);
-		console.log('keep %d connection(s)', length(clients));
+		console.log('Connection closed: %s', id);
+		console.log('Keep alive %d connection(s)', Object.keys(clients).length);
 	});
 
 	ws.on('message', function(message) {
-		data = JSON.parse(message);
-		console.log('send data from %s to %s', id, data.to);
-		clients[data.to].send(message);
+		destination = JSON.parse(message).to;
+		type = JSON.parse(message).type;
+		console.log('Data forwarded from %s to %s, type: %s', id, destination, type);
+		clients[destination].send(message);
 	});
-
-	ws.send(JSON.stringify({ "type" : "id", "id" : id }));
 });
 
 server.listen(80, function() {
 	console.log('Listening on %d', server.address().port);
 });
-
-function length(dictionary) {
-	var c = 0;
-	for (i in dictionary) c++;
-	return c;
-}

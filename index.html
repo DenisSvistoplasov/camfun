@@ -71,9 +71,10 @@
 		// document.getElementById("form").style.display = 'none';
 		localPeerConnection = new RTCPeerConnection(configuration);
 		localPeerConnection.onicecandidate = function(event){
-			if (!event || !event.candidate) return;
-			var data = { "type" : "candidate", "to" : id, "candidate" : event.candidate };
-			socket.send(JSON.stringify(data));
+			if (!localPeerConnection || !event || !event.candidate) return;
+			var candidate = event.candidate;
+			var message = JSON.stringify({ "to" : id, "type" : "candidate", "candidate" : candidate });
+			socket.send(message);
 		};
 		localPeerConnection.ontrack = function (event) {
 			remoteVideo.srcObject = event.streams[0];
@@ -82,8 +83,8 @@
 		
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
-				var data = { "type" : "offer", "to" : id, "offer" : offer };
-				socket.send(JSON.stringify(data));
+				var message = JSON.stringify({ "to" : id, "type" : "offer", "description" : offer });
+				socket.send(message);
 			}, function(handleGetUserMediaError){
 				console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
 			});
@@ -99,10 +100,11 @@
 				document.getElementById("peer-id").innerHTML = data.id;
 				break;
 			case "candidate":
-				console.log(JSON.stringify(data.candidate));
+				iceCandidate = JSON.parse(data.candidate);
+				localPeerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
 				break;
 			case "description":
-				console.log(JSON.stringify(data.description));
+				// console.log(JSON.stringify(data.description));
 				break;
 		}
 	};
