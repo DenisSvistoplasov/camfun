@@ -20,6 +20,12 @@
 	label {
 		cursor: default;
 	}
+	table {
+		margin: 25px;
+		border-collapse: collapse;
+		border: thin #EEEEEE solid;
+		border-bottom: thick #CCFFFF solid;
+	}
 </style>
 </head>
 <body>
@@ -30,10 +36,25 @@
 <input type="text" name="remote-id" id="remote-id" placeholder="Someone else's peer ID" />
 <input type="submit" />
 </form>
+<table>
+	<thead>
+		<tr>
+			<td>Local Stream</td>
+			<td>Remote Stream</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><video id="localVideo" autoplay></video></td>
+			<td><video id="remoteVideo" autoplay></video></td>
+		</tr>
+	</tbody>
+</table>
 <script type="text/javascript">
 	document.getElementById("form").addEventListener("submit", function(event){
 		event.preventDefault();
 		socket.send(document.getElementById("remote-id").value);
+		// document.getElementById("form").style.display = 'none';
 	}, false);
 
 	socket = new WebSocket('ws://172.17.0.4');
