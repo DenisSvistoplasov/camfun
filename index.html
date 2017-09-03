@@ -34,7 +34,8 @@
 <form id="form">
 <label for="remote-id">Connect to a peer:</label>
 <input type="text" name="remote-id" id="remote-id" placeholder="Someone else's peer ID" />
-<input type="submit" />
+<input type="button" name="call" id="call" value="Call" />
+<input type="button" name="hangup" id="hangup" value="Hang Up" />
 </form>
 <table>
 	<thead>
@@ -56,6 +57,10 @@
 	var configuration = {"iceServers":[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:luckydrawhk.com:3478","credential":"pfhMZ5eDFu4Er5xf","username":"lovely"}]};
 	var localPeerConnection;
 
+	document.getElementById("remote-id").disabled = false;
+	document.getElementById("call").disabled = false;
+	document.getElementById("hangup").disabled = true;
+
 	socket = new WebSocket('ws://172.17.0.2');
 
 	navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
@@ -65,7 +70,7 @@
 		log("navigator.getUserMedia error: ", error);
 	});
 
-	document.getElementById("form").addEventListener("submit", function(event){
+	document.getElementById("call").addEventListener("click", function(event) {
 		event.preventDefault();
 		remoteId = document.getElementById("remote-id").value;
 		localPeerConnection = new RTCPeerConnection(configuration);
@@ -91,6 +96,17 @@
 		});
 	}, false);
 
+	document.getElementById("hangup").addEventListener("click", function(event) {
+		event.preventDefault();
+		var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "hangup" });
+		socket.send(message);
+		localPeerConnection.close();
+		localPeerConnection = null;
+		document.getElementById("remote-id").disabled = false;
+		document.getElementById("call").disabled = false;
+		document.getElementById("hangup").disabled = true;
+	});
+
 	socket.onmessage = function(event) {
 		var data = JSON.parse(event.data);
 		switch(data.type) {
@@ -105,6 +121,8 @@
 				remoteId = data.from;
 				document.getElementById("remote-id").value = remoteId;
 				document.getElementById("remote-id").disabled = true;
+				document.getElementById("call").disabled = true;
+				document.getElementById("hangup").disabled = false;
 				localPeerConnection = new RTCPeerConnection(configuration);
 				localPeerConnection.onicecandidate = function(event){
 					if (!localPeerConnection || !event || !event.candidate) return;
@@ -131,10 +149,22 @@
 				break;
 			case "answer":
 				document.getElementById("remote-id").disabled = true;
+				document.getElementById("call").disabled = true;
+				document.getElementById("hangup").disabled = false;
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription));
+				break;
+			case "hangup":
+				localPeerConnection.close();
+				localPeerConnection = null;
+				document.getElementById("remote-id").disabled = false;
+				document.getElementById("call").disabled = false;
+				document.getElementById("hangup").disabled = true;
 				break;
 			case "error":
 				localPeerConnection = null;
+				document.getElementById("remote-id").disabled = false;
+				document.getElementById("call").disabled = false;
+				document.getElementById("hangup").disabled = true;
 				console.log(data.error);
 				break;
 		}
