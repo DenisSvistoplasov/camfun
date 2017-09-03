@@ -1,7 +1,7 @@
 {
- "name": "WebSocket",
- "version": "1.0.0",
- "description": "WebSocket on Docker",
+ "name": "CamFun",
+ "version": "2.0.0",
+ "description": "Video Chat on WebRTC",
  "author": "IUN ANTON <iunanton@naver.com>",
  "main": "app.js",
  "scripts": {
