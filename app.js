@@ -31,11 +31,15 @@ wss.on('connection', function(ws, req) {
 		console.log('connection closed %s', id);
 	});
 
-	ws.on('message', function(data) {
-		console.log('incoming data from %s: %s\n', id, data);
+	ws.on('message', function(message) {
+		console.log('incoming data: %s\n', message);
+		data = JSON.parse(message);
+		console.log('type of data: %s', data.type);
+		console.log('trying send to %s..', data.to);
+		// clients[data.to].send(message);
 	});
 
-	ws.send(id);
+	ws.send(JSON.stringify({ "type" : "id", "id" : id }));
 });
 
 server.listen(80, function() {

@@ -72,11 +72,8 @@
 		localPeerConnection = new RTCPeerConnection(configuration);
 		localPeerConnection.onicecandidate = function(event){
 			if (!event || !event.candidate) return;
-			candidate = { "to" : id,
-				"candidate" : event.candidate.candidate,
-				"sdpMid" : event.candidate.sdpMid,
-				"sdpMLineIndex" : event.candidate.sdpMLineIndex };
-			socket.send(candidate);
+			var data = { "type" : "candidate", "to" : id, "candidate" : event.candidate };
+			socket.send(JSON.stringify(data));
 		};
 		localPeerConnection.ontrack = function (event) {
 			remoteVideo.srcObject = event.streams[0];
@@ -85,10 +82,8 @@
 		
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
-				description = { "to" : id,
-				"type" : offer.type,
-				"sdp" : offer.sdp };
-				socket.send(description);
+				var data = { "type" : "offer", "to" : id, "offer" : offer };
+				socket.send(JSON.stringify(data));
 			}, function(handleGetUserMediaError){
 				console.log('Failed to create signaling message : ' + handleGetUserMediaError.name);
 			});
@@ -98,7 +93,12 @@
 	}, false);
 
 	socket.onmessage = function(event) {
-		document.getElementById("peer-id").innerHTML = event.data;
+		var message = JSON.parse(event.data);
+		switch(message.type) {
+			case "id":
+				document.getElementById("peer-id").innerHTML = message.id;
+				break;
+		  }
 	};
 </script>
 </body>
