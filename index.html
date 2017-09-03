@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>WebSocket</title>
+<title>CamFun 2.0.0</title>
 <meta name="generator" content="Bluefish 2.2.7" >
 <meta name="author" content="Anton Yun" >
 <meta name="date" content="2017-09-02T03:04:27+0900" >
@@ -54,9 +54,9 @@
 	var localId, remoteId;
 	var localStream;
 	var configuration = {"iceServers":[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:luckydrawhk.com:3478","credential":"pfhMZ5eDFu4Er5xf","username":"lovely"}]};
-	var localPeerConnection = new RTCPeerConnection(configuration);
+	var localPeerConnection;
 
-	socket = new WebSocket('ws://172.17.0.3');
+	socket = new WebSocket('ws://172.17.0.2');
 
 	navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
 		localVideo.srcObject = stream;
@@ -67,7 +67,8 @@
 
 	document.getElementById("form").addEventListener("submit", function(event){
 		event.preventDefault();
-		remoteId = document.getElementById("remote-id").value;	
+		remoteId = document.getElementById("remote-id").value;
+		localPeerConnection = new RTCPeerConnection(configuration);
 		localPeerConnection.onicecandidate = function(event){
 			if (!localPeerConnection || !event || !event.candidate) return;
 			var candidate = event.candidate;
@@ -78,7 +79,6 @@
 			remoteVideo.srcObject = event.streams[0];
 		};
 		localPeerConnection.addStream(localStream);
-		
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
 				var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "offer", "SessionDescription" : offer });
@@ -105,6 +105,7 @@
 				remoteId = data.from;
 				document.getElementById("remote-id").value = remoteId;
 				document.getElementById("remote-id").disabled = true;
+				localPeerConnection = new RTCPeerConnection(configuration);
 				localPeerConnection.onicecandidate = function(event){
 					if (!localPeerConnection || !event || !event.candidate) return;
 					var candidate = event.candidate;
@@ -133,6 +134,7 @@
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription));
 				break;
 			case "error":
+				localPeerConnection = null;
 				console.log(data.error);
 				break;
 		}
