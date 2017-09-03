@@ -23,8 +23,7 @@
 </style>
 </head>
 <body>
-<h1>WebSocket</h1>
-<p>Try to transmit "7Jyk7JWI7Yak" sequence. Check log file in the server.</p>
+<h1>Peer-To-Peer video chat CamFun 2.0.0</h1>
 <p>Your peer ID is: <span id="peer-id"></span></p>
 <form id="form">
 <label for="remote-id">Connect to a peer:</label>
@@ -38,10 +37,6 @@
 	}, false);
 
 	socket = new WebSocket('ws://172.17.0.4');
-
-	socket.onopen = function (event) {
-		socket.send("7Jyk7JWI7Yak");
-	};
 
 	socket.onmessage = function(event) {
 		document.getElementById("peer-id").innerHTML = event.data;
