@@ -84,13 +84,13 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	document.getElementById("call").disabled = false;
 	document.getElementById("hangup").disabled = true;
 
-	socket = new WebSocket('ws://172.17.0.2');
+	socket = new WebSocket('ws://owncloudhk.net:32780');
 
 	navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
 		localVideo.srcObject = stream;
 		localStream = stream;
 	}).catch(function(error) {
-		log("navigator.getUserMedia error: ", error);
+		console.log("navigator.getUserMedia error: ", error);
 	});
 
 	document.getElementById("call").addEventListener("click", function(event) {
