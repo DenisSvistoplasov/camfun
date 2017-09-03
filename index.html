@@ -109,7 +109,6 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			} else {
 				remoteVideo.srcObject = event.streams[0];
 			}
-
 		};
 		localPeerConnection.addStream(localStream);
 		localPeerConnection.createOffer(function(offer) {
@@ -159,7 +158,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					socket.send(message);
 				};
 				localPeerConnection.ontrack = function (event) {
-					remoteVideo.srcObject = event.streams[0];
+					if (window.URL) {
+						remoteVideo.src = window.URL.createObjectURL(event.stream);
+					} else {
+						remoteVideo.srcObject = event.streams[0];
+					}
 				};
 				localPeerConnection.addStream(localStream);
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
