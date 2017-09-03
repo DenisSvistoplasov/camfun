@@ -84,7 +84,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	document.getElementById("call").disabled = false;
 	document.getElementById("hangup").disabled = true;
 
-	socket = new WebSocket('ws://172.17.0.3');
+	socket = new WebSocket('wss://owncloudhk.net/chat');
 
 	navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
 		localVideo.srcObject = stream;
@@ -104,11 +104,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			socket.send(message);
 		};
 		localPeerConnection.ontrack = function (event) {
-			if (window.URL) {
-				remoteVideo.src = window.URL.createObjectURL(event.stream);
-			} else {
-				remoteVideo.srcObject = event.streams[0];
-			}
+			remoteVideo.srcObject = event.streams[0];
 		};
 		localPeerConnection.addStream(localStream);
 		localPeerConnection.createOffer(function(offer) {
@@ -158,11 +154,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					socket.send(message);
 				};
 				localPeerConnection.ontrack = function (event) {
-					if (window.URL) {
-						remoteVideo.src = window.URL.createObjectURL(event.stream);
-					} else {
-						remoteVideo.srcObject = event.streams[0];
-					}
+					remoteVideo.srcObject = event.streams[0];
 				};
 				localPeerConnection.addStream(localStream);
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
