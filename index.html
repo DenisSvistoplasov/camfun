@@ -93,16 +93,16 @@
 	}, false);
 
 	socket.onmessage = function(event) {
-		var message = JSON.parse(event.data);
-		switch(message.type) {
+		var data = JSON.parse(event.data);
+		switch(data.type) {
 			case "id":
-				document.getElementById("peer-id").innerHTML = message.id;
+				document.getElementById("peer-id").innerHTML = data.id;
 				break;
 			case "candidate":
-				console.log(JSON.stringify(message.candidate));
+				console.log(JSON.stringify(data.candidate));
 				break;
 			case "description":
-				console.log(JSON.stringify(message.description));
+				console.log(JSON.stringify(data.description));
 				break;
 		}
 	};

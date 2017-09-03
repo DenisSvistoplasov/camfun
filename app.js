@@ -27,15 +27,11 @@ wss.on('connection', function(ws, req) {
 	console.log('new connection established %s', id);
 
 	ws.on('close', function(event) {
-		delete clients[id];
-		console.log('connection closed %s', id);
+
 	});
 
 	ws.on('message', function(message) {
-		console.log('incoming data: %s\n', message);
 		data = JSON.parse(message);
-		console.log('type of data: %s', data.type);
-		console.log('trying send to %s..', data.to);
 		clients[data.to].send(message);
 	});
 
