@@ -5,8 +5,6 @@ const WebSocket = require('ws');
 var clients = {};
 
 const server = http.createServer( function(req, res) {
-	console.log('Request URL: %s', req.url);
-	console.log('Request header: %s', JSON.stringify(req.headers));
 	fs.readFile('index.html', null, function(error, data) {
 		if (error) {
 			res.writeHead(404);
@@ -37,9 +35,6 @@ wss.on('connection', function(ws, req) {
 
 	ws.on('message', function(message) {
 		destination = JSON.parse(message).to;
-		console.log(destination);
-		console.log(Object.keys(clients));
-		console.log(Object.keys(clients).indexOf(destination) + 1);
 		if (Object.keys(clients).indexOf(destination) + 1) {
 			type = JSON.parse(message).type;
 			clients[destination].send(message);
