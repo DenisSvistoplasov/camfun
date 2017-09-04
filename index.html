@@ -78,11 +78,6 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	var localId, remoteId;
 	var localStream;
 
-	navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
-	window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-	window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
-	window.RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
-
 	var constraints = {
 		video: true,
 		audio: true,
@@ -97,15 +92,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 
 	socket = new WebSocket('wss://owncloudhk.net/chat');
 
-	if(navigator.getUserMedia) {
-		navigator.getUserMedia(constraints, function(stream) {
+	if(navigator.mediaDevices.getUserMedia) {
+		navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
 			localStream = stream;
-			if (window.URL) {
-				localVideo.src = URL.createObjectURL(stream);
-			} else {
-				localVideo.src = stream;
-			}
-		}, function(error) {
+			localVideo.srcObject = stream;
+		}).catch(function(error) {
 			console.log("navigator.getUserMedia error: ", error);
 		});
 	} else {
@@ -123,13 +114,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			socket.send(message);
 		};
 		localPeerConnection.ontrack = function (event) {
-			if (window.URL) {
-				// Chrome
-				remoteVideo.src = window.URL.createObjectURL(event.stream);
-			} else {
-				// Firefox
-				remoteVideo.src = event.stream;
-			}
+			remoteVideo.srcObject = event.streams[0];
 		};
 		localPeerConnection.addStream(localStream);
 		localPeerConnection.createOffer(function(offer) {
@@ -179,13 +164,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					socket.send(message);
 				};
 				localPeerConnection.ontrack = function (event) {
-					if (window.URL) {
-						// Chrome
-						remoteVideo.src = window.URL.createObjectURL(event.stream);
-					} else {
-						// Firefox
-						remoteVideo.src = event.stream;
-					}
+					remoteVideo.srcObject = event.streams[0];
 				};
 				localPeerConnection.addStream(localStream);
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
