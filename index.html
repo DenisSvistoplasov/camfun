@@ -74,6 +74,8 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 		</tr>
 	</tbody>
 </table>
+<div id="show-local"></div>
+<div id="show-remote"></div>
 <script type="text/javascript">
 	var localId, remoteId;
 	var localStream;
@@ -120,7 +122,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			document.getElementById("hangup").disabled = false;
 			var myremotestreams = localPeerConnection.getRemoteStreams();
 			for (var myremotestream of myremotestreams) {
-			  console.log("Remote streams: " + myremotestream.id);
+				document.getElementById("show-remote").innerHTML = "Remote stream: " + myremotestream.id;
 			}
 		};
 		if (localPeerConnection.addTrack) {
@@ -130,7 +132,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 		};
 		var mylocalstreams = localPeerConnection.getLocalStreams();
 		for (var mylocalstream of mylocalstreams) {
-		  console.log("Local stream: " + mylocalstream.id);
+			document.getElementById("show-local").innerHTML = "Local stream: " + mylocalstream.id;
 		}
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
@@ -182,7 +184,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					document.getElementById("hangup").disabled = false;
 					var myremotestreams = localPeerConnection.getRemoteStreams();
 					for (var myremotestream of myremotestreams) {
-					  console.log("Remote streams: " + myremotestream.id);
+						document.getElementById("show-remote").innerHTML = "Remote stream: " + myremotestream.id;
 					}
 				};
 				if (localPeerConnection.addTrack) {
@@ -192,7 +194,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 				};
 				var mylocalstreams = localPeerConnection.getLocalStreams();
 				for (var mylocalstream of mylocalstreams) {
-				  console.log("Local stream: " + mylocalstream.id);
+				  document.getElementById("show-local").innerHTML = "Local stream: " + mylocalstream.id;
 				}
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
