@@ -119,7 +119,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			document.getElementById("call").disabled = true;
 			document.getElementById("hangup").disabled = false;
 		};
-		localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
+		if (localPeerConnection.addTrack) {
+			localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
+		} else {
+			localPeerConnection.addStream(localStream);
+		};
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
 				var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "offer", "SessionDescription" : offer });
@@ -169,7 +173,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					document.getElementById("call").disabled = true;
 					document.getElementById("hangup").disabled = false;
 				};
-				localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
+				if (localPeerConnection.addTrack) {
+					localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
+				} else {
+					localPeerConnection.addStream(localStream);
+				};
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
 						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function() {
