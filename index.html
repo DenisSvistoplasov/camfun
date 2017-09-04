@@ -193,6 +193,18 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			document.getElementById("show-addtrack").innerHTML = "using addStream method";
 			console.log("using addStream method");
 		};
+		localPeerConnection.oniceconnectionstatechange = function(event) {
+			console.log("oniceconnectionstatechange:" + localPeerConnection.iceConnectionState);
+			if (localPeerConnection.iceConnectionState === "failed" ||
+			localPeerConnection.iceConnectionState === "disconnected" ||
+			localPeerConnection.iceConnectionState === "closed") {
+				localPeerConnection.close();
+				localPeerConnection = null;
+				document.getElementById("remote-id").disabled = false;
+				document.getElementById("call").disabled = false;
+				document.getElementById("hangup").disabled = true;
+			}
+		};
 		showLocalStream(); // HERE to show local stream
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
@@ -264,6 +276,18 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					localPeerConnection.addStream(localStream);
 					document.getElementById("show-addtrack").innerHTML = "using addStream method";
 					console.log("using addStream method");
+				};
+				localPeerConnection.oniceconnectionstatechange = function(event) {
+					console.log("oniceconnectionstatechange:" + localPeerConnection.iceConnectionState);
+					if (localPeerConnection.iceConnectionState === "failed" ||
+					localPeerConnection.iceConnectionState === "disconnected" ||
+					localPeerConnection.iceConnectionState === "closed") {
+						localPeerConnection.close();
+						localPeerConnection = null;
+						document.getElementById("remote-id").disabled = false;
+						document.getElementById("call").disabled = false;
+						document.getElementById("hangup").disabled = true;
+					}
 				};
 				showLocalStream(); // HERE to show local stream
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
