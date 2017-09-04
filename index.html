@@ -76,7 +76,57 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 </table>
 <div id="show-local"></div>
 <div id="show-remote"></div>
+<div id="show-eventstreams"></div>
+<div id="show-eventstream0"></div>
+<div id="show-eventstream"></div>
+<div id="show-addtrack"></div>
 <script type="text/javascript">
+
+	function showLocalStream() {
+		var streams = localPeerConnection.getLocalStreams();
+		for (var stream of streams) {
+			document.getElementById("show-local").innerHTML = "Local stream: " + stream.id;
+			console.log("Local stream: " + stream.id);
+		}
+	}
+
+	function showRemoteStream() {
+		var streams = localPeerConnection.getRemoteStreams();
+		for (var stream of streams) {
+			document.getElementById("show-remote").innerHTML = "Remote stream: " + stream.id;
+			console.log("Remote stream: " + stream.id);
+		}
+	}
+
+	function examineEventStream(event) {
+		if (event.streams) {
+			// examine event.streams
+			var textBuffer = "examine event.streams:";
+			console.log("examine event.streams:");
+			for (var stream of event.streams) {
+				textBuffer += "^" + stream.id;
+				console.log("^" + stream.id);
+			}
+			document.getElementById("show-eventstreams").innerHTML = textBuffer;
+			if (event.streams[0]) {
+				// examine event.streams[0]
+				var textBuffer = "examine event.streams[0]:";
+				console.log("examine event.streams[0]:");
+				textBuffer += "^" + event.streams[0].id;
+				console.log("^" + event.streams[0].id);
+				document.getElementById("show-eventstream0").innerHTML = textBuffer;
+			}
+		}
+		if (event.stream) {
+			// examine event.stream
+			var textBuffer = "examine event.stream:";
+			console.log("examine event.stream:");
+			textBuffer += "^" + event.stream.id;
+			console.log("^" + event.stream.id);
+			document.getElementById("show-eventstream").innerHTML = textBuffer;
+		}
+	}
+
 	var localId, remoteId;
 	var localStream;
 
@@ -115,25 +165,35 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "candidate", "iceCandidate" : candidate });
 			socket.send(message);
 		};
-		localPeerConnection.ontrack = function (event) {
-			remoteVideo.srcObject = event.streams[0];
-			document.getElementById("remote-id").disabled = true;
-			document.getElementById("call").disabled = true;
-			document.getElementById("hangup").disabled = false;
-			var myremotestreams = localPeerConnection.getRemoteStreams();
-			for (var myremotestream of myremotestreams) {
-				document.getElementById("show-remote").innerHTML = "Remote stream: " + myremotestream.id;
-			}
-		};
+		if (localPeerConnection.ontrack) {
+			localPeerConnection.ontrack = function (event) {
+				remoteVideo.srcObject = event.streams[0];
+				document.getElementById("remote-id").disabled = true;
+				document.getElementById("call").disabled = true;
+				document.getElementById("hangup").disabled = false;
+				showRemoteStream(); // HERE to show remote stream
+				examineEventStream(event); // HERE to show event stream
+			};
+		} else {
+			localPeerConnection.onaddstream = function(event) {
+				remoteVideo.srcObject = event.stream;
+				document.getElementById("remote-id").disabled = true;
+				document.getElementById("call").disabled = true;
+				document.getElementById("hangup").disabled = false;
+				showRemoteStream(); // HERE to show remote stream
+				examineEventStream(event); // HERE to show event stream
+			};
+		}
 		if (localPeerConnection.addTrack) {
 			localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
+			document.getElementById("show-addtrack").innerHTML = "using addTrack method";
+			console.log("using addTrack method");
 		} else {
 			localPeerConnection.addStream(localStream);
+			document.getElementById("show-addtrack").innerHTML = "using addStream method";
+			console.log("using addStream method");
 		};
-		var mylocalstreams = localPeerConnection.getLocalStreams();
-		for (var mylocalstream of mylocalstreams) {
-			document.getElementById("show-local").innerHTML = "Local stream: " + mylocalstream.id;
-		}
+		showLocalStream(); // HERE to show local stream
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
 				var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "offer", "SessionDescription" : offer });
@@ -177,25 +237,35 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "candidate", "iceCandidate" : candidate });
 					socket.send(message);
 				};
-				localPeerConnection.ontrack = function (event) {
-					remoteVideo.srcObject = event.streams[0];
-					document.getElementById("remote-id").disabled = true;
-					document.getElementById("call").disabled = true;
-					document.getElementById("hangup").disabled = false;
-					var myremotestreams = localPeerConnection.getRemoteStreams();
-					for (var myremotestream of myremotestreams) {
-						document.getElementById("show-remote").innerHTML = "Remote stream: " + myremotestream.id;
-					}
+				if (localPeerConnection.ontrack) {
+					localPeerConnection.ontrack = function (event) {
+						remoteVideo.srcObject = event.streams[0];
+						document.getElementById("remote-id").disabled = true;
+						document.getElementById("call").disabled = true;
+						document.getElementById("hangup").disabled = false;
+						showRemoteStream(); // HERE to show remote stream
+						examineEventStream(event); // HERE to show event stream
+					};
+				} else {
+					localPeerConnection.onaddstream = function(event) {
+						remoteVideo.srcObject = event.stream;
+						document.getElementById("remote-id").disabled = true;
+						document.getElementById("call").disabled = true;
+						document.getElementById("hangup").disabled = false;
+						showRemoteStream(); // HERE to show remote stream
+						examineEventStream(event); // HERE to show event stream
+					};
 				};
 				if (localPeerConnection.addTrack) {
 					localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
+					document.getElementById("show-addtrack").innerHTML = "using addTrack method";
+					console.log("using addTrack method");
 				} else {
 					localPeerConnection.addStream(localStream);
+					document.getElementById("show-addtrack").innerHTML = "using addStream method";
+					console.log("using addStream method");
 				};
-				var mylocalstreams = localPeerConnection.getLocalStreams();
-				for (var mylocalstream of mylocalstreams) {
-				  document.getElementById("show-local").innerHTML = "Local stream: " + mylocalstream.id;
-				}
+				showLocalStream(); // HERE to show local stream
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
 						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function() {
