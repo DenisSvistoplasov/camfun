@@ -20,7 +20,7 @@ const server = http.createServer( function(req, res) {
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function(ws, req) {
-	var id = req.headers['sec-websocket-key'].substr(0, 16);
+	var id = req.headers['sec-websocket-key'].substr(0, 6);
 	var message = JSON.stringify({ "type" : "id", "id" : id });
 	ws.send(message);
 	clients[id] = ws;
