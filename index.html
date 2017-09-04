@@ -78,7 +78,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	var localId, remoteId;
 	var localStream;
 
-	var constraints = {
+	var mediaConstraints = {
 		video: true,
 		audio: true,
 	};
@@ -93,7 +93,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	socket = new WebSocket('wss://owncloudhk.net/chat');
 
 	if(navigator.mediaDevices.getUserMedia) {
-		navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+		navigator.mediaDevices.getUserMedia(mediaConstraints).then(function(stream) {
 			localStream = stream;
 			localVideo.srcObject = stream;
 		}).catch(function(error) {
@@ -115,8 +115,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 		};
 		localPeerConnection.ontrack = function (event) {
 			remoteVideo.srcObject = event.streams[0];
+			document.getElementById("remote-id").disabled = true;
+			document.getElementById("call").disabled = true;
+			document.getElementById("hangup").disabled = false;
 		};
-		localPeerConnection.addStream(localStream);
+		localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
 				var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "offer", "SessionDescription" : offer });
@@ -153,9 +156,6 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			case "offer":
 				remoteId = data.from;
 				document.getElementById("remote-id").value = remoteId;
-				document.getElementById("remote-id").disabled = true;
-				document.getElementById("call").disabled = true;
-				document.getElementById("hangup").disabled = false;
 				localPeerConnection = new RTCPeerConnection(configuration);
 				localPeerConnection.onicecandidate = function(event){
 					if (!localPeerConnection || !event || !event.candidate) return;
@@ -165,8 +165,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 				};
 				localPeerConnection.ontrack = function (event) {
 					remoteVideo.srcObject = event.streams[0];
+					document.getElementById("remote-id").disabled = true;
+					document.getElementById("call").disabled = true;
+					document.getElementById("hangup").disabled = false;
 				};
-				localPeerConnection.addStream(localStream);
+				localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
 						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function() {
@@ -181,9 +184,6 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 				});
 				break;
 			case "answer":
-				document.getElementById("remote-id").disabled = true;
-				document.getElementById("call").disabled = true;
-				document.getElementById("hangup").disabled = false;
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription));
 				break;
 			case "hangup":
