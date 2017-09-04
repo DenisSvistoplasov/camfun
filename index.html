@@ -114,7 +114,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "candidate", "iceCandidate" : candidate });
 			socket.send(message);
 		};
-		if (localPeerConnection.ontrack) {
+		if ('ontrack' in window.RTCPeerConnection.prototype) {
 			localPeerConnection.ontrack = function (event) {
 				remoteVideo.srcObject = event.streams[0];
 				document.getElementById("remote-id").disabled = true;
@@ -188,7 +188,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "candidate", "iceCandidate" : candidate });
 					socket.send(message);
 				};
-				if (localPeerConnection.ontrack) {
+				if ('ontrack' in window.RTCPeerConnection.prototype) {
 					localPeerConnection.ontrack = function (event) {
 						remoteVideo.srcObject = event.streams[0];
 						document.getElementById("remote-id").disabled = true;
