@@ -100,7 +100,11 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	if(navigator.getUserMedia) {
 		navigator.getUserMedia(constraints, function(stream) {
 			localStream = stream;
-			localVideo.src = window.URL.createObjectURL(stream);
+			if (window.URL) {
+				localVideo.src = URL.createObjectURL(stream);
+			} else {
+				localVideo.src = stream;
+			}
 		}, function(error) {
 			console.log("navigator.getUserMedia error: ", error);
 		});
@@ -119,7 +123,13 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			socket.send(message);
 		};
 		localPeerConnection.ontrack = function (event) {
-			remoteVideo.src = window.URL.createObjectURL(event.stream);
+			if (window.URL) {
+				// Chrome
+				remoteVideo.src = window.URL.createObjectURL(event.stream);
+			} else {
+				// Firefox
+				remoteVideo.src = event.stream;
+			}
 		};
 		localPeerConnection.addStream(localStream);
 		localPeerConnection.createOffer(function(offer) {
@@ -169,7 +179,13 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					socket.send(message);
 				};
 				localPeerConnection.ontrack = function (event) {
-					remoteVideo.src = window.URL.createObjectURL(event.stream);
+					if (window.URL) {
+						// Chrome
+						remoteVideo.src = window.URL.createObjectURL(event.stream);
+					} else {
+						// Firefox
+						remoteVideo.src = event.stream;
+					}
 				};
 				localPeerConnection.addStream(localStream);
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
