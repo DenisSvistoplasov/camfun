@@ -124,7 +124,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 		} else {
 			localPeerConnection.addStream(localStream);
 		};
-		var mystreams = pc.getLocalStreams();
+		var mystreams = localPeerConnection.getLocalStreams();
 		for (var mystream of mystreams) {
 		  console.log("Local stream: " + mystream.id);
 		}
@@ -182,7 +182,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 				} else {
 					localPeerConnection.addStream(localStream);
 				};
-				var mystreams = pc.getLocalStreams();
+				var mystreams = localPeerConnection.getLocalStreams();
 				for (var mystream of mystreams) {
 				  console.log("Local stream: " + mystream.id);
 				}
