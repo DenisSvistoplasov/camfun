@@ -124,6 +124,10 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 		} else {
 			localPeerConnection.addStream(localStream);
 		};
+		var mystreams = pc.getLocalStreams();
+		for (var mystream of mystreams) {
+		  console.log("Local stream: " + mystream.id);
+		}
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
 				var message = JSON.stringify({ "to" : remoteId, "from" : localId, "type" : "offer", "SessionDescription" : offer });
@@ -178,6 +182,10 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 				} else {
 					localPeerConnection.addStream(localStream);
 				};
+				var mystreams = pc.getLocalStreams();
+				for (var mystream of mystreams) {
+				  console.log("Local stream: " + mystream.id);
+				}
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
 						localPeerConnection.setLocalDescription(new RTCSessionDescription(answer), function() {
