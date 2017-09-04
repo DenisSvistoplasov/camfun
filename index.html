@@ -118,19 +118,19 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			document.getElementById("remote-id").disabled = true;
 			document.getElementById("call").disabled = true;
 			document.getElementById("hangup").disabled = false;
+			var myremotestreams = localPeerConnection.getRemoteStreams();
+			for (var myremotestream of myremotestreams) {
+			  console.log("Remote streams: " + myremotestream.id);
+			}
 		};
 		if (localPeerConnection.addTrack) {
 			localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
 		} else {
 			localPeerConnection.addStream(localStream);
 		};
-		var mylocastreams = localPeerConnection.getLocalStreams();
-		for (var mylocastream of mylocastreams) {
-		  console.log("Local stream: " + mylocastream.id);
-		}
-		var myremotestreams = localPeerConnection.getRemoteStreams();
-		for (var myremotestream of myremotestreams) {
-		  console.log("Remote streams: " + myremotestream.id);
+		var mylocalstreams = localPeerConnection.getLocalStreams();
+		for (var mylocalstream of mylocalstreams) {
+		  console.log("Local stream: " + mylocalstream.id);
 		}
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
@@ -180,19 +180,19 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					document.getElementById("remote-id").disabled = true;
 					document.getElementById("call").disabled = true;
 					document.getElementById("hangup").disabled = false;
+					var myremotestreams = localPeerConnection.getRemoteStreams();
+					for (var myremotestream of myremotestreams) {
+					  console.log("Remote streams: " + myremotestream.id);
+					}
 				};
 				if (localPeerConnection.addTrack) {
 					localStream.getTracks().forEach(track => localPeerConnection.addTrack(track, localStream));
 				} else {
 					localPeerConnection.addStream(localStream);
 				};
-				var mylocastreams = localPeerConnection.getLocalStreams();
-				for (var mylocastream of mylocastreams) {
-				  console.log("Local stream: " + mylocastream.id);
-				}
-				var myremotestreams = localPeerConnection.getRemoteStreams();
-				for (var myremotestream of myremotestreams) {
-				  console.log("Remote streams: " + myremotestream.id);
+				var mylocalstreams = localPeerConnection.getLocalStreams();
+				for (var mylocalstream of mylocalstreams) {
+				  console.log("Local stream: " + mylocalstream.id);
 				}
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
