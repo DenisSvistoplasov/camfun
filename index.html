@@ -124,9 +124,13 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 		} else {
 			localPeerConnection.addStream(localStream);
 		};
-		var mystreams = localPeerConnection.getLocalStreams();
-		for (var mystream of mystreams) {
-		  console.log("Local stream: " + mystream.id);
+		var mylocastreams = localPeerConnection.getLocalStreams();
+		for (var mylocastream of mylocastreams) {
+		  console.log("Local stream: " + mylocastream.id);
+		}
+		var myremotestreams = localPeerConnection.getRemoteStreams();
+		for (var myremotestream of myremotestreams) {
+		  console.log("Remote streams: " + myremotestream.id);
 		}
 		localPeerConnection.createOffer(function(offer) {
 			localPeerConnection.setLocalDescription(new RTCSessionDescription(offer), function() {
@@ -182,9 +186,13 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 				} else {
 					localPeerConnection.addStream(localStream);
 				};
-				var mystreams = localPeerConnection.getLocalStreams();
-				for (var mystream of mystreams) {
-				  console.log("Local stream: " + mystream.id);
+				var mylocastreams = localPeerConnection.getLocalStreams();
+				for (var mylocastream of mylocastreams) {
+				  console.log("Local stream: " + mylocastream.id);
+				}
+				var myremotestreams = localPeerConnection.getRemoteStreams();
+				for (var myremotestream of myremotestreams) {
+				  console.log("Remote streams: " + myremotestream.id);
 				}
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
 					localPeerConnection.createAnswer(function(answer) {
