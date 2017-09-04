@@ -78,9 +78,15 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 	var localId, remoteId;
 	var localStream;
 
+	navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 	window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
 	window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
 	window.RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
+
+	var constraints = {
+		video: true,
+		audio: true,
+	};
 	
 	var configuration = {"iceServers":[{"urls":"stun:stun.l.google.com:19302"},{"urls":"turn:luckydrawhk.com:3478","credential":"pfhMZ5eDFu4Er5xf","username":"lovely"}]};
 	var localPeerConnection;
@@ -91,12 +97,16 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 
 	socket = new WebSocket('wss://owncloudhk.net/chat');
 
-	navigator.mediaDevices.getUserMedia({audio:true, video:true}).then(function(stream) {
-		localVideo.srcObject = stream;
-		localStream = stream;
-	}).catch(function(error) {
-		console.log("navigator.getUserMedia error: ", error);
-	});
+	if(navigator.getUserMedia) {
+		navigator.getUserMedia(constraints).then(function(stream) {
+			localStream = stream;
+			localVideo.src = window.URL.createObjectURL(stream);
+		}).catch(function(error) {
+			console.log("navigator.getUserMedia error: ", error);
+		});
+	} else {
+		alert('Your browser does not support getUserMedia API');
+	};
 
 	document.getElementById("call").addEventListener("click", function(event) {
 		event.preventDefault();
@@ -109,7 +119,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 			socket.send(message);
 		};
 		localPeerConnection.ontrack = function (event) {
-			remoteVideo.srcObject = event.streams[0];
+			remoteVideo.src = window.URL.createObjectURL(event.stream);
 		};
 		localPeerConnection.addStream(localStream);
 		localPeerConnection.createOffer(function(offer) {
@@ -159,7 +169,7 @@ AAAAAAAAAAAAAAAAAAAAAAA=" />
 					socket.send(message);
 				};
 				localPeerConnection.ontrack = function (event) {
-					remoteVideo.srcObject = event.streams[0];
+					remoteVideo.src = window.URL.createObjectURL(event.stream);
 				};
 				localPeerConnection.addStream(localStream);
 				localPeerConnection.setRemoteDescription(new RTCSessionDescription(data.SessionDescription)).then(function (){
