@@ -24,13 +24,13 @@ wss.on('connection', function(ws, req) {
 	var message = JSON.stringify({ "type" : "id", "id" : id });
 	ws.send(message);
 	clients[id] = ws;
-	console.log('Connection established: %s', id);
-	console.log('Keep alive %d connection(s)', Object.keys(clients).length);
+	console.log('%s Connection established: %s', Date.now(), id);
+	console.log('%s Keep alive %d connection(s)', Date.now(), Object.keys(clients).length);
 
 	ws.on('close', function(event) {
 		delete clients[id];
-		console.log('Connection closed: %s', id);
-		console.log('Keep alive %d connection(s)', Object.keys(clients).length);
+		console.log('%s Connection closed: %s', Date.now(), id);
+		console.log('%s Keep alive %d connection(s)', Date.now(), Object.keys(clients).length);
 	});
 
 	ws.on('message', function(message) {
@@ -38,15 +38,15 @@ wss.on('connection', function(ws, req) {
 		if (Object.keys(clients).indexOf(destination) + 1) {
 			type = JSON.parse(message).type;
 			clients[destination].send(message);
-			console.log('Data forwarded from %s to %s, type: %s', id, destination, type);
+			console.log('%s Data forwarded from %s to %s, type: %s', Date.now(), id, destination, type);
 		} else {
 			message = JSON.stringify({ "type" : "error", "error" : "remote peer id not correct" });
 			ws.send(message);
-			console.log('Wrong destination');
+			console.log('%s Wrong destination', Date.now());
 		}
 	});
 });
 
 server.listen(80, function() {
-	console.log('Listening on %d', server.address().port);
+	console.log('%s Listening on %d', Date.now(), server.address().port);
 });
